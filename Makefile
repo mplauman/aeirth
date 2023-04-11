@@ -8,5 +8,6 @@ docker:
 run: docker
 	@docker run -d -p $(PORT):80 --name $(NAME) $(NAME):$(VERSION)
 
-kill:
+stop:
 	@docker kill $(NAME)
+	@docker rm $(NAME)
