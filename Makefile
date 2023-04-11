@@ -1,13 +1,19 @@
 NAME:=aeirthedit
 VERSION:=latest
-PORT:=8080
+TAG:=$(NAME):$(VERSION)
+
+PWD:$(shell pwd)
+DIST=$(PWD)/dist
+SRC=$(PWD)/src
+
+build:
+	@mkdir -pv $(SRC)
+	@mkdir -pv $(DIST)
+	@docker run -v $(SRC):/usr/app/src:ro -v $(DIST):/usr/app/dist $(TAG)
 
 docker:
-	@docker build --tag $(NAME):$(VERSION) .
+	@docker build --tag $(TAG) .
 
-run: docker
-	@docker run -d -p $(PORT):80 --name $(NAME) $(NAME):$(VERSION)
+clean:
+	@rm -rfv $(DIST)
 
-stop:
-	@docker kill $(NAME)
-	@docker rm $(NAME)
