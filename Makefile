@@ -2,9 +2,9 @@ NAME:=aeirthedit
 VERSION:=latest
 TAG:=$(NAME):$(VERSION)
 
-PWD:$(shell pwd)
-DIST=$(PWD)/dist
-SRC=$(PWD)/src
+PWD:=$(shell pwd)
+DIST:=$(PWD)/dist
+SRC:=$(PWD)/src
 
 build:
 	@mkdir -pv $(SRC)
