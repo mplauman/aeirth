@@ -9,11 +9,11 @@ const App = () => (
   <TimelineCollection name="Hinterlands of Fate's End" src={FatesEndMap} initialScale={0.5} minScale={0.1} maxScale={3}/>
 )
 
-function Marker({x, y}) {
+const Marker = (props) => {
   return (
-    <div className='marker' style={{ top: y, left: x }}>
+    <div className='marker' style={{ top: props.y, left: props.x }}>
       <KeepScale>
-        <City/>
+        { props.children }
       </KeepScale>
     </div>
   )
@@ -21,7 +21,9 @@ function Marker({x, y}) {
 
 function MogCaern() {
   return (
-    <Marker x='2058px' y='1429px'/>
+    <Marker x='2058px' y='1429px'>
+      <City/>
+    </Marker>
   )
 }
 
