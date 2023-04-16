@@ -2,9 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { KeepScale, ReactZoomPanPinchProps, TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 import City from './assets/markers/city.svg';
+import FatesEndMap from './assets/maps/fatesEnd.jpg';
 
 const App = () => (
-  <TimelineCollection name="Hinterlands of Fate's End" src='./assets/maps/fatesEnd.jpg' initialScale={0.5} minScale={0.1} maxScale={3}/>
+  <TimelineCollection name="Hinterlands of Fate's End" src={FatesEndMap} initialScale={0.5} minScale={0.1} maxScale={3}/>
 )
 
 function Marker({x, y}) {
