@@ -1,0 +1,11 @@
+div.marker {
+  position: absolute;
+  zIndex: 2;
+  transform: translate(-50%, -50%);
+}
+
+div.marker svg {
+  width: 53px;
+  height: 53px;
+}
+
