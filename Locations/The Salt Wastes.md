@@ -1,0 +1,1 @@
+An endless tract of wasteland to the west of [[Mog Caern]]. Frequented by scholars, treasure hunters, and adventurers seeking riches in the ruins that are buried and revealed by the shifting sands.
