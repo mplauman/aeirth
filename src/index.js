@@ -2,16 +2,33 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import { KeepScale, ReactZoomPanPinchProps, TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 import City from './assets/markers/city.svg';
-import FatesEndMap from './assets/maps/fatesEnd.jpg';
 import Style from './style.css';
 
 const App = (props) => {
-  const [loaded, setLoaded] = useState(false);
+  const [map, setMap] = useState(null);
 
-  useEffect(() => { setLoaded(true); }, [loaded])
+  useEffect(
+    () => {
+      const delay = (time) => {
+        return new Promise(res => {
+          setTimeout(res, time);
+        });
+      }
+
+      const loadMap = async () => {
+        await delay(500);
+        const m = await import('./assets/maps/fatesEnd.jpg');
+
+        setMap(m.default);
+      }
+
+      loadMap();
+    },
+    [map]
+  )
 
   return (
-    loaded ? <TimelineCollection name="Hinterlands of Fate's End" src={FatesEndMap} initialScale={0.5} minScale={0.1} maxScale={3}/> : <Loading/>
+    map ? <TimelineCollection name="Hinterlands of Fate's End" src={map} initialScale={0.5} minScale={0.1} maxScale={3}/> : <Loading/>
   )
 }
 
