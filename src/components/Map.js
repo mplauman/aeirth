@@ -1,7 +1,7 @@
 import React from 'react';
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 
-const TimelineCollection = ({initialScale, minScale, maxScale, children, name, image}) => {
+const Map = ({initialScale, minScale, maxScale, children, name, image}) => {
   return (
     <TransformWrapper centerOnInit={true} centerZoomedOut={true} initialScale={initialScale} minScale={minScale} maxScale={maxScale}>
       <TransformComponent wrapperStyle={{width: "100%", height: "100%"}}>
@@ -14,4 +14,4 @@ const TimelineCollection = ({initialScale, minScale, maxScale, children, name, i
   )
 }
 
-export default TimelineCollection;
+export default Map;

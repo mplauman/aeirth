@@ -4,7 +4,7 @@ import City from './assets/markers/city.svg';
 import Style from './style.css';
 import Marker from './components/Marker';
 import Loading from './components/Loading';
-import TimelineCollection from './components/TimelineCollection'
+import Map from './components/Map'
 
 const App = () => {
   const [map, setMap] = useState(null);
@@ -31,11 +31,11 @@ const App = () => {
 
   if (map) {
     return (
-      <TimelineCollection name="Hinterlands of Fate's End" image={map} initialScale={0.5} minScale={0.1} maxScale={3}>
+      <Map name="Hinterlands of Fate's End" image={map} initialScale={0.5} minScale={0.1} maxScale={3}>
         <Marker x='2058px' y='1429px'>
           <City/>
         </Marker>
-      </TimelineCollection>
+      </Map>
     )
   }
 
