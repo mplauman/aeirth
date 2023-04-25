@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Style from './style.css';
 import FatesEnd from './maps/FatesEnd';
+
+import './style.css';
 
 const App = () => {
   return (
