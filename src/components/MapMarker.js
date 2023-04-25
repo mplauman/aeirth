@@ -2,7 +2,7 @@ import React from 'react';
 import { KeepScale } from 'react-zoom-pan-pinch';
 import City from '../assets/markers/city.svg';
 
-const Marker = ({x, y, type}) => {
+const MapMarker = ({x, y, type}) => {
   var typeComponent
   switch (type) {
     case 'city':
@@ -17,4 +17,4 @@ const Marker = ({x, y, type}) => {
   )
 }
   
-export default Marker;
+export default MapMarker;
