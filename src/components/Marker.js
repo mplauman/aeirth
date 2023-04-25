@@ -1,15 +1,20 @@
 import React from 'react';
 import { KeepScale } from 'react-zoom-pan-pinch';
+import City from '../assets/markers/city.svg';
 
-const Marker = ({x, y, children}) => {
-    return (
-      <div className='marker' style={{ top: y, left: x }}>
-        <KeepScale>
-          { children }
-        </KeepScale>
-      </div>
-    )
+const Marker = ({x, y, type}) => {
+  var typeComponent
+  switch (type) {
+    case 'city':
+      typeComponent = <City/>;
+      break;
   }
+
+  return (
+    <div className='marker' style={{ top: y, left: x }}>
+      <KeepScale>{typeComponent}</KeepScale>
+    </div>
+  )
+}
   
-  export default Marker;
-  
+export default Marker;
