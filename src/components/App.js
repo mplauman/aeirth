@@ -1,16 +1,24 @@
 import React from 'react';
 
+import Article from './Article';
+import Category from './Category';
 import MainView from './MainView';
 import TableOfContents from './TableOfContents';
 
-const App = ({children}) => {
+import FatesEnd from '../maps/FatesEnd';
+1
+const App = () => {
   return (
     <>
       <MainView>
-        {children.map}
+        <FatesEnd/>
       </MainView>
       <TableOfContents>
-        {children.articles}
+        <Article title='An article'/>
+        <Article title='Another article'/>
+        <Category title='Bestiary'>
+          <Article title='Weiner dog'/>
+        </Category>
       </TableOfContents>
     </>
   )
