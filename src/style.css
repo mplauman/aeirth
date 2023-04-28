@@ -42,7 +42,7 @@ div.marker svg {
   overflow-x: clip;
 }
 
-.tocButton {
+.tableOfContentsButton {
   position: absolute;
   top: 10px;
   left: 10px;
@@ -50,7 +50,7 @@ div.marker svg {
   height: 50px;
 }
 
-.tocButton svg {
+.tableOfContentsButton svg {
   width: 100%;
   height: 100%;
 }

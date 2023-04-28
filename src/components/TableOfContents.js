@@ -35,7 +35,7 @@ const TableOfContents = ({children}) => {
           </ul>
         </div>
       </animated.div>
-      <div onClick={toggleOpen} className='tocButton'>
+      <div onClick={toggleOpen} className='tableOfContentsButton'>
         {open ? <CloseIcon/> : <MenuIcon/>}
       </div>
     </>
