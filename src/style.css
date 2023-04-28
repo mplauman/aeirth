@@ -8,7 +8,7 @@ div.mainView {
 
 div.marker {
   position: absolute;
-  zIndex: 2;
+  z-index: 2;
   transform: translate(-50%, -50%);
 }
 
@@ -22,4 +22,35 @@ div.marker svg {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+
+.tableOfContents {
+  width: 15%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100vh;
+  background-color: #EBEBEB;  
+}
+
+.tableOfContents div {
+  position: relative;
+  top: 60px;
+  width: 100%;
+  height: calc(100vh - 60px);
+  overflow-y: scroll;
+  overflow-x: clip;
+}
+
+.tocButton {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 50px;
+  height: 50px;
+}
+
+.tocButton svg {
+  width: 100%;
+  height: 100%;
 }
