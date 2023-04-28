@@ -1,13 +1,14 @@
 import React from 'react';
 
+import MainView from './MainView';
 import TableOfContents from './TableOfContents';
 
 const App = ({children}) => {
   return (
     <>
-      <div style={{ position: 'absolute', top:'0px', left: '0px', width: '100vw', height: '100vh'}}>
+      <MainView>
         {children.map}
-      </div>
+      </MainView>
       <TableOfContents>
         {children.articles}
       </TableOfContents>
