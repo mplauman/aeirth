@@ -33,13 +33,28 @@ div.marker svg {
   background-color: #EBEBEB;  
 }
 
-.tableOfContents div {
+.tableOfContents > div {
   position: relative;
   top: 60px;
   width: 100%;
   height: calc(100vh - 60px);
   overflow-y: scroll;
   overflow-x: clip;
+}
+
+.tableOfContents > div > ul {
+  list-style-type: none;
+  margin: 0px;
+  padding-left: 10px;
+}
+
+.tableOfContents > div > ul ul {
+  list-style-type: none;
+  padding-left: 15px;
+}
+
+.tableOfContents > div > ul li {
+  white-space: nowrap;
 }
 
 .tableOfContentsButton {
