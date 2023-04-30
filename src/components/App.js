@@ -2,6 +2,7 @@ import React from 'react';
 
 import Article from './Article';
 import Category from './Category';
+import InformationDrawer from './InformationDrawer';
 import MainView from './MainView';
 import TableOfContents from './TableOfContents';
 
@@ -20,6 +21,7 @@ const App = () => {
           <Article title='Weiner dog'/>
         </Category>
       </TableOfContents>
+      <InformationDrawer/>
     </>
   )
 }

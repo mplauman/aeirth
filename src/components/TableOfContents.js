@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 
 import { animated, useSpring } from '@react-spring/web';
 
-import CloseIcon from '../assets/icons/close.svg';
-import MenuIcon from '../assets/icons/menu.svg';
+import CloseIcon from '../assets/icons/double-chevron-left.svg';
+import MenuIcon from '../assets/icons/double-chevron-right.svg';
 
 const TableOfContents = ({children}) => {
   const [open, setOpen] = useState(null)
