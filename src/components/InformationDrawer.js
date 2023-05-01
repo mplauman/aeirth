@@ -28,9 +28,9 @@ const InformationDrawer = ({}) => {
 
   return (
     <animated.div className='informationDrawer' style={props}>
-      <div className='toolbar'>
+      <div className='toolbar' onClick={toggleOpen}>
         <div className='title'>title</div>
-        <div onClick={toggleOpen} class='icon'>
+        <div className='icon'>
           {(closed == null || !closed) ? <Minimize/> : <Maximize/>}
         </div>
       </div>

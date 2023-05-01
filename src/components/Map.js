@@ -32,7 +32,7 @@ const Map = ({initialScale, minScale, maxScale, children, name}) => {
   }
   
   return (
-    <TransformWrapper centerOnInit={true} centerZoomedOut={true} initialScale={initialScale} minScale={minScale} maxScale={maxScale}>
+    <TransformWrapper limitToBounds={false} centerOnInit={true} initialScale={initialScale} minScale={minScale} maxScale={maxScale}>
       <TransformComponent wrapperStyle={{width: "100%", height: "100%"}}>
         <div>
           <img alt={name} src={image}/>
