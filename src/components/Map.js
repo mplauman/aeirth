@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
 import Loading from './Loading';
 
-const Map = ({initialScale, minScale, maxScale, children, name}) => {
-  const [image, setImage] = useState(null);
+const Map = ({initialScale, minScale, maxScale, image, children, name}) => {
+  const [loadedImage, setLoadedImage] = useState(null);
 
   useEffect(
     () => {
@@ -13,19 +13,19 @@ const Map = ({initialScale, minScale, maxScale, children, name}) => {
         });
       }
 
-      const awaitMap = async () => {
+      const loadImage = async () => {
         await delay(500);
-        const m = await children.image;
+        const m = await image;
 
-        setImage(m.default);
+        setLoadedImage(m.default);
       }
 
-      awaitMap();
+      loadImage();
     },
-    [image]
+    [loadedImage]
   )
 
-  if (!image) {
+  if (!loadedImage) {
     return (
       <Loading/>
     )
@@ -35,8 +35,8 @@ const Map = ({initialScale, minScale, maxScale, children, name}) => {
     <TransformWrapper limitToBounds={false} centerOnInit={true} initialScale={initialScale} minScale={minScale} maxScale={maxScale}>
       <TransformComponent wrapperStyle={{width: "100%", height: "100%"}}>
         <div>
-          <img alt={name} src={image}/>
-          {children.markers}
+          <img alt={name} src={loadedImage}/>
+          {children}
         </div>
       </TransformComponent>
     </TransformWrapper>
