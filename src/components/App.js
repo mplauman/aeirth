@@ -1,27 +1,18 @@
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 
-import Article from './Article';
-import Category from './Category';
-import InformationDrawer from './InformationDrawer';
-import MainView from './MainView';
 import TableOfContents from './TableOfContents';
+import MainView from './MainView';
 
-import FatesEnd from '../maps/FatesEnd';
-1
-const App = () => {
+const App = ({children}) => {
   return (
     <>
       <MainView>
-        <FatesEnd/>
+        <Outlet/>
       </MainView>
       <TableOfContents>
-        <Article title='An article'/>
-        <Article title='Another article'/>
-        <Category title='Bestiary'>
-          <Article title='Weiner dog'/>
-        </Category>
+        {children}
       </TableOfContents>
-      <InformationDrawer/>
     </>
   )
 }
