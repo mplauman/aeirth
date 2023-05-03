@@ -61,6 +61,11 @@ div.marker svg {
   white-space: nowrap;
 }
 
+.tableOfContents a {
+  color: inherit;
+  text-decoration: none;
+}
+
 .tableOfContentsButton {
   position: fixed;
   top: 10px;
