@@ -7,6 +7,8 @@ import Article from './components/Article';
 import Category from './components/Category';
 
 import './style.css';
+
+import FatesEnd from './maps/FatesEnd';
 import GodsOfAeirth from './articles/GodsOfAeirth';
 import Welcome from './articles/Welcome';
 
@@ -15,7 +17,7 @@ const router = createHashRouter([
     path: "/",
     element:
       <App>
-        <Article path='' title='Welcome'/>
+        <Article path='welcome' title='Welcome'/>
         <Article path='godsOfAeirth' title='The Gods'/>
         <Article path='another' title='Another article'/>
         <Category title='Bestiary'>
@@ -25,6 +27,10 @@ const router = createHashRouter([
     children: [
       { 
         index: true,
+        element: <FatesEnd/>
+      },
+      {
+        path: "welcome",
         element: <Welcome/>
       },
       {
