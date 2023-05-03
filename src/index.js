@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { createHashRouter, RouterProvider, Link } from 'react-router-dom';
+import { createHashRouter, RouterProvider } from 'react-router-dom';
 
 import App from './components/App';
 import Article from './components/Article';
@@ -15,11 +15,11 @@ const router = createHashRouter([
     path: "/",
     element:
       <App>
-        <li><Link to={''}>Welcome</Link></li>
-        <li><Link to={'godsOfAeirth'}>Gods of Aeirth</Link></li>
-        <Article title='Another article'/>
+        <Article path='' title='Welcome'/>
+        <Article path='godsOfAeirth' title='The Gods'/>
+        <Article path='another' title='Another article'/>
         <Category title='Bestiary'>
-          <Article title='Weiner dog'/>
+          <Article path='beasts/weinerDog' title='Weiner dog'/>
         </Category>
       </App>,
     children: [

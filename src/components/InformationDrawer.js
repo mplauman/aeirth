@@ -8,7 +8,7 @@ import { animated, useSpring } from '@react-spring/web';
 const OPENED = { top: 'calc(80% - 25px)', height: 'calc(20% + 25px)' }
 const CLOSED = { top: 'calc(100% - 25px)', height: 'calc(0% + 25px)' }
 
-const InformationDrawer = ({children}) => {
+const InformationDrawer = ({title, children}) => {
   const [closed, setClosed] = useState(null);
 
   var props;
@@ -29,7 +29,7 @@ const InformationDrawer = ({children}) => {
   return (
     <animated.div className='informationDrawer' style={props}>
       <div className='toolbar' onClick={toggleOpen}>
-        <div className='title'>title</div>
+        <div className='title'>{title}</div>
         <div className='icon'>
           {(closed == null || !closed) ? <Minimize/> : <Maximize/>}
         </div>
