@@ -23,6 +23,10 @@ module.exports = {
         type: 'asset/resource'
       },
       {
+        test: /\.md$/,
+        type: 'asset/resource'
+      },
+      {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
       }

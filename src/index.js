@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { createHashRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import App from './components/App';
 import Article from './components/Article';
@@ -12,7 +12,7 @@ import FatesEnd from './maps/FatesEnd';
 import GodsOfAeirth from './articles/GodsOfAeirth';
 import Welcome from './articles/Welcome';
 
-const router = createHashRouter([
+const router = createBrowserRouter([
   {
     path: "/",
     element:
