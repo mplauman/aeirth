@@ -5,7 +5,8 @@ module.exports = {
   entry: path.join(__dirname, '/src/index.js'),
   output: {
     filename: 'build.js',
-    path: path.join(__dirname, '/dist')
+    path: path.join(__dirname, '/dist'),
+    publicPath: '/'
   },
   module: {
     rules: [
@@ -31,6 +32,9 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       }
     ]
+  },
+  devServer: {
+    historyApiFallback: true
   },
   plugins: [
     new HWP({template: path.join(__dirname, '/src/index.html')})
