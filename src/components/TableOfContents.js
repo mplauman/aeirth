@@ -28,7 +28,7 @@ const TableOfContents = ({children}) => {
 
   return (
     <>
-      <animated.div class='tableOfContents' style={{width: props.width}}>
+      <animated.div className='tableOfContents' style={{width: props.width}}>
         <div>
           <ul>
             {children}
