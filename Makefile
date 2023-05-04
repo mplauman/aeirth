@@ -11,6 +11,11 @@ build:
 	@mkdir -pv $(DIST)
 	@docker run -v $(SRC):/usr/app/src:ro -v $(DIST):/usr/app/dist $(TAG)
 
+dev:
+	@mkdir -pv $(SRC)
+	@mkdir -pv $(DIST)
+	@docker run -v $(SRC):/usr/app/src:ro -v $(DIST):/usr/app/dist -p 8080:8080 $(TAG) dev
+
 docker:
 	@docker build --tag $(TAG) .
 

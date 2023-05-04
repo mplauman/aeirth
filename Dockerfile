@@ -11,5 +11,6 @@ RUN npm install
 # need to run it with a couple volumes:
 # - one mounted to `/usr/app/src` containing the input source code
 # - one mounted to `/usr/app/dist` that will receive the generated output
-CMD ["npm", "run", "build"]
+ENTRYPOINT [ "npm", "run" ]
+CMD [ "build" ]
 
