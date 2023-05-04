@@ -11,6 +11,7 @@ import './style.css';
 import FatesEnd from './maps/FatesEnd';
 import GodsOfAeirth from './articles/GodsOfAeirth';
 import Welcome from './articles/Welcome';
+import WeinerDog from './articles/WeinerDog';
 
 const router = createBrowserRouter([
   {
@@ -19,7 +20,6 @@ const router = createBrowserRouter([
       <App>
         <Article path='welcome' title='Welcome'/>
         <Article path='godsOfAeirth' title='The Gods'/>
-        <Article path='another' title='Another article'/>
         <Category title='Bestiary'>
           <Article path='beasts/weinerDog' title='Weiner dog'/>
         </Category>
@@ -36,6 +36,10 @@ const router = createBrowserRouter([
       {
         path: "godsOfAeirth",
         element: <GodsOfAeirth/>
+      },
+      {
+        path: "beasts/weinerDog",
+        element: <WeinerDog/>
       },
     ]
   }
