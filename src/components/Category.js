@@ -2,10 +2,9 @@ import React from 'react';
 
 const Category = ({title, children}) => {
   return (
-    <>
-      <li>{title}</li>
+    <li>{title}
       <ul>{children}</ul>
-    </>
+    </li>
   )
 }
 
