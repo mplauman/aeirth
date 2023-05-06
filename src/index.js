@@ -13,35 +13,60 @@ import GodsOfAeirth from './articles/GodsOfAeirth';
 import Welcome from './articles/Welcome';
 import WeinerDog from './articles/WeinerDog';
 
+const directory = [
+  {
+    title: 'Welcome',
+    element: <Welcome/>
+  },
+  {
+    title: 'The Gods',
+    element: <GodsOfAeirth/>
+  },
+  {
+    title: 'Bestiary',
+    children: [
+      {
+        title: 'Weiner Dog',
+        element: <WeinerDog/>
+      },
+    ],
+  },
+];
+
+const buildNavItems = (path, d) => {
+  return d.map( (item) => {
+    const itemPath = path + "/" + item.title;
+
+    if (item.children != null) {
+      return <Category key={itemPath} path={itemPath} title={item.title}>{ buildNavItems(itemPath, item.children) }</Category>;
+    }
+
+    return <Article key={itemPath} path={itemPath} title={item.title}/>
+  });
+};
+
+const buildRoutes = (path, d) => {
+  return d.flatMap( (item) => {
+    const itemPath = path + "/" + item.title;
+
+    if (item.children != null) {
+      return buildRoutes(itemPath, item.children);
+    }
+
+    return { path: itemPath, element: item.element };
+  })
+};
+
 const router = createBrowserRouter([
   {
-    path: "/",
-    element:
-      <App>
-        <Article path='welcome' title='Welcome'/>
-        <Article path='godsOfAeirth' title='The Gods'/>
-        <Category title='Bestiary'>
-          <Article path='beasts/weinerDog' title='Weiner dog'/>
-        </Category>
-      </App>,
+    path: '',
+    element: <App>{ buildNavItems('', directory) }</App>,
     children: [
       { 
         index: true,
         element: <FatesEnd/>
       },
-      {
-        path: "welcome",
-        element: <Welcome/>
-      },
-      {
-        path: "godsOfAeirth",
-        element: <GodsOfAeirth/>
-      },
-      {
-        path: "beasts/weinerDog",
-        element: <WeinerDog/>
-      },
-    ]
+    ].concat(buildRoutes('', directory))
   }
 ])
 
