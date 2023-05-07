@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import App from './components/App';
-import Article from './components/Article';
+import ArticleLink from './components/ArticleLink';
 import Category from './components/Category';
 
 import './style.css';
@@ -38,7 +38,7 @@ const buildNavItems = (path, d) => {
       return <Category key={itemPath} path={itemPath} title={item.title}>{ buildNavItems(itemPath, item.children) }</Category>;
     }
 
-    return <Article key={itemPath} path={itemPath} title={item.title}/>
+    return <ArticleLink key={itemPath} path={itemPath} title={item.title}/>
   });
 };
 
@@ -53,8 +53,9 @@ const buildRoutes = (path, d) => {
     return {
       path: itemPath,
       async lazy() {
-        let module = await item.load();
-        return { Component: module.default };
+        return await item.load()
+          .then( (result) => { return result.default })
+          .then( (component) => { return { Component: component }});
       }
     };
   })
