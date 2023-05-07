@@ -9,25 +9,22 @@ import Category from './components/Category';
 import './style.css';
 
 import FatesEnd from './maps/FatesEnd';
-import GodsOfAeirth from './articles/GodsOfAeirth';
-import Welcome from './articles/Welcome';
-import WeinerDog from './articles/WeinerDog';
 
 const directory = [
   {
     title: 'Welcome',
-    element: <Welcome/>
+    load: () => { return import('./articles/Welcome') }
   },
   {
     title: 'The Gods',
-    element: <GodsOfAeirth/>
+    load: () => { return import('./articles/GodsOfAeirth') }
   },
   {
     title: 'Bestiary',
     children: [
       {
         title: 'Weiner Dog',
-        element: <WeinerDog/>
+        load: () => { return import('./articles/WeinerDog') }
       },
     ],
   },
@@ -53,7 +50,13 @@ const buildRoutes = (path, d) => {
       return buildRoutes(itemPath, item.children);
     }
 
-    return { path: itemPath, element: item.element };
+    return {
+      path: itemPath,
+      async lazy() {
+        let module = await item.load();
+        return { Component: module.default };
+      }
+    };
   })
 };
 
