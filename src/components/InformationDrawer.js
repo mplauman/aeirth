@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import Minimize from '../assets/icons/mini-chevron-down.svg';
-import Maximize from '../assets/icons/mini-chevron-up.svg';
+import Minimize from './icons/mini-chevron-down.svg';
+import Maximize from './icons/mini-chevron-up.svg';
 
 import { animated, useSpring } from '@react-spring/web';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { KeepScale } from 'react-zoom-pan-pinch';
-import City from '../assets/markers/city.svg';
+import City from './icons/city.svg';
 
 const MapMarker = ({x, y, type}) => {
   var typeComponent
