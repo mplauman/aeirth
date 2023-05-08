@@ -11,18 +11,18 @@ import './style.css';
 const directory = [
   {
     title: 'Welcome',
-    load: () => { return import('./articles/Welcome') }
+    load: () => { return import('./content/Welcome') }
   },
   {
     title: 'The Gods',
-    load: () => { return import('./articles/GodsOfAeirth') }
+    load: () => { return import('./content/Gods Of Aeirth') }
   },
   {
     title: 'Bestiary',
     children: [
       {
         title: 'Weiner Dog',
-        load: () => { return import('./articles/WeinerDog') }
+        load: () => { return import('./content/beasts/Weiner Dog') }
       },
     ],
   },
