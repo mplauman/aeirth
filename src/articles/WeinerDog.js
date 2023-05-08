@@ -1,35 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import FatesEnd from '../maps/FatesEnd';
-import InformationDrawer from '../components/InformationDrawer';
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
+import React from 'react';
 
-const GodsOfAeirth = () => {
-  const [content, setContent] = useState('Loading...');
+import Article from '../components/Article';
+import Map from '../components/Map';
 
-  useEffect(
-    () => {
-      const loadContent = async () => {
-        const path = await import('../assets/markdown/beasts/Weiner Dog.md');
-        const content = await fetch(path.default);
-        const text = await content.text();
-
-        setContent(text);
-      }
-
-      loadContent();
-    },
-    [content]
-  )
-
+export const Component = () => {
   return (
-    <>
-      <FatesEnd/>
-      <InformationDrawer title='Weiner Dog'>
-        <ReactMarkdown children={content} remarkPlugins={[remarkGfm]}/>
-      </InformationDrawer>
-    </>
+    <Article title='Weiner Dog' content={ import('../assets/markdown/beasts/Weiner Dog.md') }>
+      <Map
+        name="Hinterlands of Fate's End"
+        image={import('../assets/maps/fatesEnd.jpg')}
+        initialScale={0.5}
+        minScale={0.1}
+        maxScale={3}
+      />
+    </Article>
   )
 }
-
-export default GodsOfAeirth;

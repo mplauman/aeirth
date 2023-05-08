@@ -1,16 +1,19 @@
 import React from 'react';
-import FatesEnd from '../maps/FatesEnd';
-import InformationDrawer from '../components/InformationDrawer';
 
-const Welcome = () => {
+import Article from '../components/Article';
+import Map from '../components/Map';
+
+export const Component = () => {
   return (
-    <>
-      <FatesEnd/>
-      <InformationDrawer title='Welcome'>
-        <p>Some kind of blurb.</p>
-      </InformationDrawer>
-    </>
+    <Article title='Welcome' content={import ('../assets/markdown/Welcome.md') }>
+      <Map
+        name="Hinterlands of Fate's End"
+        image={import('../assets/maps/fatesEnd.jpg')}
+        initialScale={0.5}
+        minScale={0.1}
+        maxScale={3}
+      >
+      </Map>
+    </Article>
   )
 }
-
-export default Welcome;

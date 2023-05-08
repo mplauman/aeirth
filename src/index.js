@@ -8,8 +8,6 @@ import Category from './components/Category';
 
 import './style.css';
 
-import FatesEnd from './maps/FatesEnd';
-
 const directory = [
   {
     title: 'Welcome',
@@ -52,11 +50,7 @@ const buildRoutes = (path, d) => {
 
     return {
       path: itemPath,
-      async lazy() {
-        return await item.load()
-          .then( (result) => { return result.default })
-          .then( (component) => { return { Component: component }});
-      }
+      async lazy() { return await item.load(); }
     };
   })
 };
@@ -68,7 +62,7 @@ const router = createBrowserRouter([
     children: [
       { 
         index: true,
-        element: <FatesEnd/>
+        element: <></>
       },
     ].concat(buildRoutes('', directory))
   }

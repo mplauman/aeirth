@@ -1,35 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import FatesEnd from '../maps/FatesEnd';
-import InformationDrawer from '../components/InformationDrawer';
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
+import React from 'react';
 
-const GodsOfAeirth = () => {
-  const [content, setContent] = useState('Loading...');
+import Article from '../components/Article';
+import Map from '../components/Map';
+import MapMarker from '../components/MapMarker';
 
-  useEffect(
-    () => {
-      const loadContent = async () => {
-        const path = await import('../assets/markdown/Gods of Aeirth.md');
-        const content = await fetch(path.default);
-        const text = await content.text();
-
-        setContent(text);
-      }
-
-      loadContent();
-    },
-    [content]
-  )
-
+export const Component = () => {
   return (
-    <>
-      <FatesEnd/>
-      <InformationDrawer title='Gods of Aeirth'>
-        <ReactMarkdown children={content} remarkPlugins={[remarkGfm]}/>
-      </InformationDrawer>
-    </>
+    <Article title='Gods of Aeirth' content={ import('../assets/markdown/Gods of Aeirth.md') }>
+      <Map
+        name="Hinterlands of Fate's End"
+        image={import('../assets/maps/fatesEnd.jpg')}
+        initialScale={0.5}
+        minScale={0.1}
+        maxScale={3}
+      >
+        <MapMarker x='2058px' y='1429px' type='city'/>
+      </Map>
+    </Article>
   )
 }
-
-export default GodsOfAeirth;
