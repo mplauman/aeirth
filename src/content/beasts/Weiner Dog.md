@@ -1,0 +1,1 @@
+The weiner dog is a terrible entity. Ill tempered, it snaps at anybody who draws near. Severing it in twain merely causes the halves to regenerate into two separate weiner dogs.
