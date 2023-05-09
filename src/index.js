@@ -8,25 +8,7 @@ import Category from './components/Category';
 
 import './style.css';
 
-const directory = [
-  {
-    title: 'Welcome',
-    load: () => { return import('./content/Welcome') }
-  },
-  {
-    title: 'The Gods',
-    load: () => { return import('./content/Gods Of Aeirth') }
-  },
-  {
-    title: 'Bestiary',
-    children: [
-      {
-        title: 'Weiner Dog',
-        load: () => { return import('./content/beasts/Weiner Dog') }
-      },
-    ],
-  },
-];
+import Directory from './Directory';
 
 const buildNavItems = (path, d) => {
   return d.map( (item) => {
@@ -58,13 +40,13 @@ const buildRoutes = (path, d) => {
 const router = createBrowserRouter([
   {
     path: '',
-    element: <App>{ buildNavItems('', directory) }</App>,
+    element: <App>{ buildNavItems('', Directory) }</App>,
     children: [
       { 
         index: true,
         element: <></>
       },
-    ].concat(buildRoutes('', directory))
+    ].concat(buildRoutes('', Directory))
   }
 ])
 
