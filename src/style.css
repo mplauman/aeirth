@@ -101,6 +101,7 @@ div.marker svg {
   align-items: center;
   justify-content: center;
   width: 100%;
+  font-weight: bold;
 }
 
 .informationDrawer .icon {
