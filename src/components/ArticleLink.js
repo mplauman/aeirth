@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const ArticleLink = ({path, title}) => {
   return (
-    <li><Link to={path}>{title}</Link></li>
+    <li className='articleLink'><Link to={path}>{title}</Link></li>
   )
 }
 
