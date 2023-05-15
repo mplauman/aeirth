@@ -3,12 +3,13 @@ import React from 'react';
 import Article from '../../components/Article';
 import Map from '../../components/Map';
 
+import Maps from '../../Maps';
+
 export const Component = () => {
   return (
     <Article title='Pally' content={ import('./Pally.md') }>
       <Map
-        name="Hinterlands of Fate's End"
-        image={import('../fatesEnd.jpg')}
+        source={Maps.FATES_END}
         initialScale={0.5}
         minScale={0.1}
         maxScale={3}
