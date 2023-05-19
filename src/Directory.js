@@ -1,18 +1,33 @@
+import Maps from './Maps';
+
+const FATES_END = {
+  map: Maps.FATES_END,
+  initialScal: 0.5,
+  minScale: 0.1,
+  maxScale: 3,
+}
+
 export const Directory = [
   {
     title: 'Welcome',
-    load: () => { return import('./content/Welcome') }
+    content: import ('./content/Welcome.md'),
+    ...FATES_END,
   },
   {
     title: 'Background',
     children: [
       {
-        title: 'The Gods',
-        load: () => { return import('./content/Background/Gods of Aeirth') }
+        title: 'Gods',
+        content: import('./content/Background/Gods of Aeirth.md'),
+        ...FATES_END,
+        markers: [
+          { x: 2058, y: 1429, type: 'city' },
+        ]
       },
       {
-        title: 'The Calendar',
-        load: () => { return import('./content/Background/The Calendar') }
+        title: 'Calendar',
+        content: import('./content/Background/The Calendar.md'),
+        ...FATES_END,
       },
     ]
   },
@@ -21,38 +36,46 @@ export const Directory = [
     children: [
       {
         title: 'Overview',
-        load: () => { return import('./content/Watchmans/Overview') },
+        content: import('./content/Watchmans/Overview.md'),
+        ...FATES_END,
       },
       {
         title: 'Timeline',
         children: [
           {
             title: '231.12.21',
-            load: () => { return import('./content/Watchmans/231.12.21 - A Murder Scene Most Fowl') },
+            content: import('./content/Watchmans/231.12.21 - A Murder Scene Most Fowl.md'),
+            ...FATES_END,
           },
           {
             title: '231.13.06',
-            load: () => { return import('./content/Watchmans/231.13.06 - The Assignment') },
+            content: import('./content/Watchmans/231.13.06 - The Assignment.md'),
+            ...FATES_END,
           },
           {
             title: '231.13.07',
-            load: () => { return import('./content/Watchmans/231.13.07 - A Watch Failure') },
+            content: import('./content/Watchmans/231.13.07 - A Watch Failure.md'),
+            ...FATES_END,
           },
           {
             title: '231.14.01',
-            load: () => { return import('./content/Watchmans/231.14.01 - Safe Haven') },
+            content: import('./content/Watchmans/231.14.01 - Safe Haven.md'),
+            ...FATES_END,
           },
           {
             title: '231.14.02',
-            load: () => { return import('./content/Watchmans/231.14.02 - Instigating and Investigating') },
+            content: import('./content/Watchmans/231.14.02 - Instigating and Investigating.md'),
+            ...FATES_END,
           },
           {
             title: '231.14.03',
-            load: () => { return import('./content/Watchmans/231.14.03 - Mutual Ambushing') },
+            content: import('./content/Watchmans/231.14.03 - Mutual Ambushing.md'),
+            ...FATES_END,
           },
           {
             title: '231.14.04',
-            load: () => { return import('./content/Watchmans/231.14.04 - The Report') },
+            content: import('./content/Watchmans/231.14.04 - The Report.md'),
+            ...FATES_END,
           },
         ]
       },
@@ -63,18 +86,46 @@ export const Directory = [
     children: [
       {
         title: 'Oggogul',
-        load: () => { return import('./content/Characters and Factions/Oggogul') },
+        content: import('./content/Characters and Factions/Oggogul.md'),
+        ...FATES_END,
       },
       {
         title: 'Pally',
-        load: () => { return import('./content/Characters and Factions/Pally') },
+        content: import('./content/Characters and Factions/Pally.md'),
+        ...FATES_END,
       },
       {
         title: 'Romin',
-        load: () => { return import('./content/Characters and Factions/Romin') },
+        content: import('./content/Characters and Factions/Romin.md'),
+        ...FATES_END,
       },
     ]
-  }
+  },
+  {
+    title: 'Locations',
+    children: [
+      {
+        title: 'Mog Caern',
+        content: import('./content/Locations/Mog Caern.md'),
+        ...FATES_END,
+      },
+      {
+        title: 'Roadside Camp',
+        content: import('./content/Locations/Roadside Camp.md'),
+        ...FATES_END,
+      },
+      {
+        title: 'Sly Fox Inn',
+        content: import('./content/Locations/Sly Fox Inn.md'),
+        ...FATES_END,
+      },
+      {
+        title: 'The Salt Wastes',
+        content: import('./content/Locations/The Salt Wastes.md'),
+        ...FATES_END,
+      },
+    ]
+  },
 ];
 
 export default Directory;
