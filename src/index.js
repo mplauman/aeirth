@@ -3,8 +3,11 @@ import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import App from './components/App';
+import Article from './components/Article';
 import ArticleLink from './components/ArticleLink';
 import Category from './components/Category';
+import Map from './components/Map';
+import MapMarker from './components/MapMarker';
 
 import './style.css';
 
@@ -32,7 +35,28 @@ const buildRoutes = (path, d) => {
 
     return {
       path: itemPath,
-      async lazy() { return await item.load(); }
+      async lazy() {
+        const component = () => {
+          return (
+            <Article title={item.title} content={item.content}>
+              <Map
+                source={item.map}
+                initialScale={item.initialScale}
+                minScale={item.minScale}
+                maxScale={item.maxScale}
+              >
+                {
+                  item.markers.map((marker, index) => {
+                    return <MapMarker key={index} x={marker.x} y={marker.y} type={marker.type}/>
+                  })
+                }
+              </Map>
+            </Article>
+          );
+        };
+
+        return { Component: component }
+      }
     };
   })
 };

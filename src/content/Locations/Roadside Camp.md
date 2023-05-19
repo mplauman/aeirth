@@ -1,0 +1,1 @@
+A rough, frequently used campsite halfway between [[Mog Caern]] and the [[Sly Fox Inn]].

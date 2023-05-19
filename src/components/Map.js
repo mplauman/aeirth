@@ -1,41 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch';
-import Loading from './Loading';
 
-const Map = ({initialScale, minScale, maxScale, image, children, name}) => {
-  const [loadedImage, setLoadedImage] = useState(null);
-
-  useEffect(
-    () => {
-      const delay = (time) => {
-        return new Promise(res => {
-          setTimeout(res, time);
-        });
-      }
-
-      const loadImage = async () => {
-        await delay(500);
-        const m = await image;
-
-        setLoadedImage(m.default);
-      }
-
-      loadImage();
-    },
-    [loadedImage]
-  )
-
-  if (!loadedImage) {
-    return (
-      <Loading/>
-    )
-  }
-  
+const Map = ({initialScale, minScale, maxScale, source, children}) => {
   return (
     <TransformWrapper limitToBounds={false} centerOnInit={true} initialScale={initialScale} minScale={minScale} maxScale={maxScale}>
       <TransformComponent wrapperStyle={{width: "100%", height: "100%"}}>
         <div>
-          <img alt={name} src={loadedImage}/>
+          <img alt={source.title} src={source.image}/>
           {children}
         </div>
       </TransformComponent>

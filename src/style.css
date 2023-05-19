@@ -37,6 +37,16 @@ div.marker svg {
   background-color: var(--background-color);  
 }
 
+.tableOfContents .category {
+  font-style: oblique;
+  font-size: large;
+}
+
+.tableOfContents .articleLink {
+  font-style: normal;
+  font-size: medium;
+}
+
 .tableOfContents > div {
   position: relative;
   top: 60px;
@@ -101,6 +111,7 @@ div.marker svg {
   align-items: center;
   justify-content: center;
   width: 100%;
+  font-weight: bold;
 }
 
 .informationDrawer .icon {

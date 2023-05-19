@@ -1,1 +1,1 @@
-# aeirth
+A simple little homebrew Dungeons and Dragons campaign world.
