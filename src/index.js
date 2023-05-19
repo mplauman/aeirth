@@ -46,8 +46,8 @@ const buildRoutes = (path, d) => {
                 maxScale={item.maxScale}
               >
                 {
-                  (item.markers || []).map((marker, index) => {
-                    <MapMarker id={index} x={marker.x} y={marker.y} type={marker.type}/>
+                  item.markers.map((marker, index) => {
+                    return <MapMarker key={index} x={marker.x} y={marker.y} type={marker.type}/>
                   })
                 }
               </Map>

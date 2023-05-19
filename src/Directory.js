@@ -5,6 +5,7 @@ const FATES_END = {
   initialScal: 0.5,
   minScale: 0.1,
   maxScale: 3,
+  markers: [],
 }
 
 export const Directory = [
