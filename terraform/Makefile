@@ -9,7 +9,8 @@ DIST:=$(PWD)/dist
 SRC:=$(PWD)
 
 terraform:
-	@docker run -it -v $(SRC):/usr/app/src:rw --workdir /usr/app/src --user $(UID):$(GID) $(TAG)
+	@mkdir -pv $(HOME)/.aws
+	@docker run -it -v $(SRC):/usr/app/src:rw --workdir /usr/app/src -v $(HOME)/.aws:/.aws:rw --user $(UID):$(GID) $(TAG)
 
 docker:
 	@docker build --tag $(TAG) .
