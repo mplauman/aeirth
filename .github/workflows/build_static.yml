@@ -1,7 +1,6 @@
-name: NodeJS with Webpack
+name: Build the static website
 
 on:
-  workflow_call:
   pull_request:
     branches: [ "main" ]
 
@@ -11,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.16.0]
+        node-version: [16, 17, 18]
 
     steps:
     - uses: actions/checkout@v3
