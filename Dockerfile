@@ -1,4 +1,4 @@
-FROM node:14-alpine3.10
+FROM node:18.16.0-alpine3.16
 WORKDIR /usr/app
 COPY .babelrc ./
 COPY package.json ./

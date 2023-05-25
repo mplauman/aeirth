@@ -1,11 +1,10 @@
-NAME:=aeirth_terraform
+NAME:=aeirth_platform
 VERSION:=latest
 TAG:=$(NAME):$(VERSION)
 
 PWD:=$(shell pwd)
 UID:=$(shell id -u)
 GID:=$(shell id -g)
-DIST:=$(PWD)/dist
 SRC:=$(PWD)
 
 terraform:
