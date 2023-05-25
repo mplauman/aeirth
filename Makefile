@@ -7,7 +7,6 @@ SRC:=$(PWD)/src
 
 dev:
 	@mkdir -pv $(SRC)
-	@mkdir -pv $(DIST)
 	@docker run -v $(SRC):/usr/app/src:ro -p 8080:8080 $(TAG) dev
 
 docker:
