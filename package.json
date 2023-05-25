@@ -2,7 +2,7 @@
   "name": "aeirth_compile",
   "version": "1.0.0",
   "description": "Compile react into static html",
-  "main": "index.js",
+  "main": "./index.js",
   "scripts": {
     "build": "webpack --mode production",
     "dev": "webpack-dev-server --mode development"
