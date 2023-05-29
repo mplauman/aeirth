@@ -1,9 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
-const ArticleLink = ({path, title}) => {
+const ArticleLink = ({onClick, title}) => {
   return (
-    <li className='articleLink'><Link to={path}>{title}</Link></li>
+    <li className='articleLink'><a onClick={onClick}>{title}</a></li>
   )
 }
 
