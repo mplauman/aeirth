@@ -28,6 +28,18 @@ const articles = {
     display: 'Romin',
     content: 'Characters and Factions/Romin.md',
   },
+  tor_millist: {
+    display: 'Tor Millist',
+    content: 'Characters and Factions/Tor Millist.md',
+  },
+  fates_end: {
+    display: 'Fate\'s End',
+    content: 'Background/Fates End.md',
+  },
+  aeirth: {
+    display: 'Aeirth',
+    content: 'Background/Aeirth.md',
+  },
 }
 
 const events = {

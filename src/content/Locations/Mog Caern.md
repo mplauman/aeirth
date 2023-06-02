@@ -1,0 +1,5 @@
+Deep within the hinterlands of Fate's End lies Mog Caern: a towering fortress city that rises like a mountain out of the surrounding landscape. Its mammoth towers stretch towards the sky, standing on the backs of the giant structures that preceded it. It is a city that has been built, over and over again, upon the rotten corpse of itself.
+
+In its highest towers lie the ruling elite: powerful nobles, merchants, and oligarchs who wield sufficient money and influence to live beyond the law. Meanwhile its deepest pits fester with horrors wilfully ignored in the misplaced belief that this will somehow make them go away.
+
+And somewhere in the middle lie the commoners: merchants, guards, labourers, swindlers, and any manner of profession whose greatest goal in life is to make ends meet and relax before doing it all again the next day.
