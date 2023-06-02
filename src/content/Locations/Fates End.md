@@ -1,0 +1,1 @@
+A large expanse of land sandwiched between the [[Gorgeback Mountains]] and [[The Salt Wastes]]. Home to a several small communities and the city-state of [[Mog Caern]].
