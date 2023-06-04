@@ -4,14 +4,19 @@ const Map = ({initialScale, minScale, maxScale, title, image, children}) => {
   const [state, setState] = useState({
     dx: 0,
     dy: 0,
+    pan: null,
   })
 
   useEffect(() => {
     window.addEventListener('wheel', handleMouseWheel, { passive: false });
 
     window.addEventListener('mousedown', handleMouseDown, { passive: false });
+    window.addEventListener('mousemove', handleMouseMove, { passive: false });
+    window.addEventListener('mouseup', handleMouseUp, { passive: false });
 
     window.addEventListener('touchstart', handleTouchStart, { passive: false });
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
+    window.addEventListener('touchend', handleTouchEnd, { passive: false });
 
     return () => {
       window.removeEventListener('wheel', handleMouseWheel, { passive: false });
@@ -24,7 +29,7 @@ const Map = ({initialScale, minScale, maxScale, title, image, children}) => {
       window.removeEventListener('touchmove', handleTouchMove, { passive: false });
       window.removeEventListener('touchend', handleTouchEnd, { passive: false });
     }
-  })
+  }, [state])
 
   const handleMouseWheel = (args) => {
     console.log("Mouse wheel", args);
@@ -35,24 +40,64 @@ const Map = ({initialScale, minScale, maxScale, title, image, children}) => {
 
   const handleMouseDown = (args) => {
     console.log("Mouse down", args);
-    window.addEventListener('mousemove', handleMouseMove, { passive: false });
-    window.addEventListener('mouseup', handleMouseUp, { passive: false });
+
     args.stopPropagation();
     args.preventDefault();
+
+    setState({
+      ...state,
+      pan: {
+        last: {
+          x: args.clientX,
+          y: args.clientY,
+        },
+      },
+    });
+
     return false;
   }
   const handleMouseUp = (args) => {
-    console.log("Mouse up", args);
-    window.removeEventListener('mousemove', handleMouseMove, { passive: false });
-    window.removeEventListener('mouseup', handleMouseUp, { passive: false });
-    args.stopPropagation();
-    args.preventDefault();
+    if (state.pan) {
+      console.log("Mouse up", args);
+
+      args.stopPropagation();
+      args.preventDefault();
+
+      setState({
+        ...state,
+        pan: null,
+      });
+    }
+
     return false;
   }
   const handleMouseMove = (args) => {
-    console.log("Mouse moved", args);
-    args.stopPropagation();
-    args.preventDefault();
+    if (state.pan) {
+      console.log("Mouse moved", args);
+
+      const velocity = { 
+        x: args.clientX - state.pan.last.x,
+        y: args.clientY - state.pan.last.y,
+      };
+      console.log("Velocity", velocity);
+
+      args.stopPropagation();
+      args.preventDefault();
+  
+      setState({
+        ...state,
+        pan: {
+          last: {
+            x: args.clientX,
+            y: args.clientY,
+          },
+          velocity: velocity,
+        },
+        dx: state.dx + velocity.x,
+        dy: state.dy + velocity.y,
+      })
+    }
+
     return false;
   }
 
@@ -80,6 +125,7 @@ const Map = ({initialScale, minScale, maxScale, title, image, children}) => {
   }
 
   const onImageLoad = async ({target}) => {
+    console.log('image loaded');
     setState({
       ...state,
       dx: state.dx - target.naturalWidth / 2,
