@@ -38,89 +38,98 @@ const Map = ({initialScale, minScale, maxScale, title, image, children}) => {
     return false;
   }
 
-  const handleMouseDown = (args) => {
-    console.log("Mouse down", args);
-
-    args.stopPropagation();
-    args.preventDefault();
-
+  const beginPanning = (x, y) => {
     setState({
       ...state,
       pan: {
         last: {
-          x: args.clientX,
-          y: args.clientY,
+          x: x,
+          y: y,
         },
       },
     });
-
-    return false;
   }
-  const handleMouseUp = (args) => {
+  const continuePanning = (x, y) => {
     if (state.pan) {
-      console.log("Mouse up", args);
-
-      args.stopPropagation();
-      args.preventDefault();
-
-      setState({
-        ...state,
-        pan: null,
-      });
-    }
-
-    return false;
-  }
-  const handleMouseMove = (args) => {
-    if (state.pan) {
-      console.log("Mouse moved", args);
-
       const velocity = { 
-        x: args.clientX - state.pan.last.x,
-        y: args.clientY - state.pan.last.y,
+        x: x - state.pan.last.x,
+        y: y - state.pan.last.y,
       };
-      console.log("Velocity", velocity);
 
-      args.stopPropagation();
-      args.preventDefault();
-  
       setState({
         ...state,
         pan: {
           last: {
-            x: args.clientX,
-            y: args.clientY,
+            x: x,
+            y: y,
           },
           velocity: velocity,
         },
         dx: state.dx + velocity.x,
         dy: state.dy + velocity.y,
-      })
+      });
     }
+  }
+  const finishPanning = () => {
+    setState({
+      ...state,
+      pan: null,
+    });
+  }
+
+  const handleMouseDown = (args) => {
+    args.stopPropagation();
+    args.preventDefault();
+
+    beginPanning(args.clientX, args.clientY);
+
+    return false;
+  }
+  const handleMouseMove = (args) => {
+    args.stopPropagation();
+    args.preventDefault();
+
+    continuePanning(args.clientX, args.clientY);
+
+    return false;
+  }
+  const handleMouseUp = (args) => {
+    args.stopPropagation();
+    args.preventDefault();
+
+    finishPanning();
 
     return false;
   }
 
   const handleTouchStart = (args) => {
-    console.log('touch start', args);
-    window.addEventListener('touchmove', handleTouchMove, { passive: false });
-    window.addEventListener('touchend', handleTouchEnd, { passive: false });
     args.stopPropagation();
     args.preventDefault();
+
+    if (args.targetTouches.length == 1) {
+      beginPanning(args.targetTouches[0].clientX, args.targetTouches[0].clientY);
+    }
+
     return false;
   }
   const handleTouchMove = (args) => {
-    console.log('touch move', args);
     args.stopPropagation();
     args.preventDefault();
+
+    if (args.targetTouches.length == 1) {
+      continuePanning(args.targetTouches[0].clientX, args.targetTouches[0].clientY);
+    }
+
     return false;
   }
   const handleTouchEnd = (args) => {
-    console.log('touch end', args);
-    window.removeEventListener('touchmove', handleTouchMove, { passive: false });
-    window.removeEventListener('touchend', handleTouchEnd, { passive: false });
     args.stopPropagation();
     args.preventDefault();
+
+    if (args.targetTouches.length == 0) {
+      finishPanning();
+    }
+
     return false;
   }
 
