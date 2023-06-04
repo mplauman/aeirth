@@ -4,6 +4,7 @@ const Map = ({initialScale, minScale, maxScale, title, image, children}) => {
   const [state, setState] = useState({
     dx: 0,
     dy: 0,
+    s: 1,
     pan: null,
   })
 
@@ -33,8 +34,24 @@ const Map = ({initialScale, minScale, maxScale, title, image, children}) => {
 
   const handleMouseWheel = (args) => {
     console.log("Mouse wheel", args);
+
     args.stopPropagation();
     args.preventDefault();
+
+    var scale = 0.0;
+    if (args.deltaY < 0) {
+      scale = state.s + 0.25;
+    } else {
+      scale = Math.max(0, state.s - 0.25);
+    }
+
+    console.log("new scale", scale);
+
+    setState({
+      ...state,
+      s: scale,
+    });
+
     return false;
   }
 
@@ -143,7 +160,13 @@ const Map = ({initialScale, minScale, maxScale, title, image, children}) => {
   }
 
   return (
-    <img onLoad={onImageLoad} draggable={false} style={{position: "fixed", left: 0, top: 0, transform: "translate(50vw, 50vh) translate(" + state.dx + "px, " + state.dy + "px)"}} src={image} alt={title}/>
+    <img 
+      onLoad={onImageLoad}
+      draggable={false}
+      style={{position: "fixed", left: 0, top: 0, transform: "translate(50vw, 50vh) translate(" + state.dx + "px, " + state.dy + "px) scale(" + state.s + ")"}}
+      src={image}
+      alt={title}
+    />
   )
 }
 
