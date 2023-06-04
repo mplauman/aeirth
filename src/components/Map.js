@@ -6,6 +6,7 @@ const Map = ({initialScale, minScale, maxScale, title, image, children}) => {
     dy: 0,
     s: 1,
     pan: null,
+    pinch: null,
   })
 
   useEffect(() => {
@@ -33,19 +34,15 @@ const Map = ({initialScale, minScale, maxScale, title, image, children}) => {
   }, [state])
 
   const handleMouseWheel = (args) => {
-    console.log("Mouse wheel", args);
-
     args.stopPropagation();
     args.preventDefault();
 
     var scale = 0.0;
     if (args.deltaY < 0) {
-      scale = state.s + 0.25;
+      scale = Math.min(maxScale, state.s + 0.25);
     } else {
-      scale = Math.max(0, state.s - 0.25);
+      scale = Math.max(minScale, state.s - 0.25);
     }
-
-    console.log("new scale", scale);
 
     setState({
       ...state,
@@ -53,6 +50,47 @@ const Map = ({initialScale, minScale, maxScale, title, image, children}) => {
     });
 
     return false;
+  }
+
+  const beginPinching = (x1, y1, x2, y2) => {
+    const dx = (x2 - x1);
+    const dy = (y2 - y1);
+    const magnitude = dx*dx + dy*dy
+
+    setState({
+      ...state,
+      pinch: {
+        last: magnitude,
+        velocity: null,
+      }
+    });
+  }
+  const continuePinching = (x1, y1, x2, y2) => {
+    if (state.pinch) {
+      const dx = (x2 - x1);
+      const dy = (y2 - y1);
+      const magnitude = dx*dx + dy*dy
+
+      // The large divisor here is because the magnitudes are pretty big: first they haven't been
+      // square rooted (doesn't matter since just looking for relative size) and second because
+      // pixel differences are *not* the same as scale factors.
+      const velocity = (magnitude - state.pinch.last) / 10000.0;
+
+      setState({
+        ...state,
+        pinch: {
+          last: magnitude,
+          velocity: velocity,
+        },
+        s: Math.min(maxScale, Math.max(minScale, state.s + velocity)),
+      });
+    }
+  }
+  const finishPinching = () => {
+    setState({
+      ...state,
+      pinch: null,
+    });
   }
 
   const beginPanning = (x, y) => {
@@ -126,6 +164,15 @@ const Map = ({initialScale, minScale, maxScale, title, image, children}) => {
     if (args.targetTouches.length == 1) {
       beginPanning(args.targetTouches[0].clientX, args.targetTouches[0].clientY);
     }
+    
+    if (args.targetTouches.length == 2) {
+      beginPinching(
+        args.targetTouches[0].clientX,
+        args.targetTouches[0].clientY,
+        args.targetTouches[1].clientX,
+        args.targetTouches[1].clientY,
+      )
+    }
 
     return false;
   }
@@ -135,6 +182,15 @@ const Map = ({initialScale, minScale, maxScale, title, image, children}) => {
 
     if (args.targetTouches.length == 1) {
       continuePanning(args.targetTouches[0].clientX, args.targetTouches[0].clientY);
+    }
+    
+    if (args.targetTouches.length == 2) {
+      continuePinching(
+        args.targetTouches[0].clientX,
+        args.targetTouches[0].clientY,
+        args.targetTouches[1].clientX,
+        args.targetTouches[1].clientY,
+      )
     }
 
     return false;
@@ -146,12 +202,15 @@ const Map = ({initialScale, minScale, maxScale, title, image, children}) => {
     if (args.targetTouches.length == 0) {
       finishPanning();
     }
+    
+    if (args.targetTouches.length == 1) {
+      finishPinching()
+    }
 
     return false;
   }
 
   const onImageLoad = async ({target}) => {
-    console.log('image loaded');
     setState({
       ...state,
       dx: state.dx - target.naturalWidth / 2,
