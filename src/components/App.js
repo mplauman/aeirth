@@ -49,47 +49,46 @@ const App = ({tocEntries}) => {
       newState.article.content = await articleData.text();
     }
 
+    if (newState.map != null && newState.article != null) {
+      newState.mainView = 
+        <MainView>
+          <Map {...newState.map}>
+            {
+              newState.map.markers.map((marker, index) => {
+                return <MapMarker key={index} {...marker}/>
+              })
+            }
+          </Map>
+          <Article {...newState.article}/>
+        </MainView>
+    } else if (newState.map != null) {
+      newState.mainView = 
+        <MainView>
+          <Map {...newState.map}>
+            {
+              newState.map.markers.map((marker, index) => {
+                return <MapMarker key={index} {...marker}/>
+              })
+            }
+          </Map>
+        </MainView>
+    } else if (newState.article != null) {
+      newState.mainView =
+        <MainView>
+          <Article {...newState.article}/>
+        </MainView>
+    } else {
+      newState.mainView = <></>
+    }
+
     setState(newState);
   }
 
   const tableOfContents = buildTableOfContents('', tocEntries, setCurrentArticle);
 
-  var mainView = null;
-  if (state.map != null && state.article != null) {
-    mainView = 
-      <MainView>
-        <Map {...state.map}>
-          {
-            state.map.markers.map((marker, index) => {
-              return <MapMarker key={index} {...marker}/>
-            })
-          }
-        </Map>
-        <Article {...state.article}/>
-      </MainView>
-  } else if (state.map != null) {
-    mainView = 
-      <MainView>
-        <Map {...state.map}>
-          {
-            state.map.markers.map((marker, index) => {
-              return <MapMarker key={index} {...marker}/>
-            })
-          }
-        </Map>
-      </MainView>
-  } else if (state.article != null) {
-    mainView =
-      <MainView>
-        <Article {...state.article}/>
-      </MainView>
-  } else {
-    mainView = <></>
-  }
-
   return (
     <>
-      {mainView}
+      {state.mainView}
       <TableOfContents open={state.showNavigation}>{ tableOfContents }</TableOfContents>
     </>
   )
