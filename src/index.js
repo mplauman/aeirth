@@ -10,7 +10,7 @@ import './style.css';
 const fatesEnd = {
   title: 'The Hinterlands of Fate\'s End',
   image: 'https://d1pyjk54yi0zpw.cloudfront.net/maps/fatesEnd.jpg',
-  initialScal: 0.5,
+  initialScale: 0.5,
   minScale: 0.1,
   maxScale: 3,
   markers: [],

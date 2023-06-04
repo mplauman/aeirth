@@ -4,7 +4,7 @@ const Map = ({initialScale, minScale, maxScale, title, image, children}) => {
   const [state, setState] = useState({
     dx: 0,
     dy: 0,
-    s: 1,
+    s: initialScale,
     pan: null,
     pinch: null,
   })
