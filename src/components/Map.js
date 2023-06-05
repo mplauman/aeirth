@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const Map = ({initialScale, minScale, maxScale, title, image, children}) => {
+  const pan = useRef(null);
+
   const [state, setState] = useState({
     dx: 0,
     dy: 0,
     s: initialScale,
-    pan: null,
     pinch: null,
   })
 
@@ -94,42 +95,33 @@ const Map = ({initialScale, minScale, maxScale, title, image, children}) => {
   }
 
   const beginPanning = (x, y) => {
-    setState({
-      ...state,
-      pan: {
-        last: {
-          x: x,
-          y: y,
-        },
-      },
-    });
+    pan.current = {
+      last: { x, y },
+    };
   }
   const continuePanning = (x, y) => {
-    if (state.pan) {
+    if (pan.current) {
       const velocity = { 
-        x: x - state.pan.last.x,
-        y: y - state.pan.last.y,
+        x: x - pan.current.last.x,
+        y: y - pan.current.last.y,
       };
 
-      setState({
-        ...state,
-        pan: {
-          last: {
-            x: x,
-            y: y,
-          },
-          velocity: velocity,
-        },
-        dx: state.dx + velocity.x,
-        dy: state.dy + velocity.y,
+      pan.current = { 
+        last: { x, y },
+        velocity: velocity,
+      };
+
+      setState((old) => {
+        return {
+          ...old,
+          dx: state.dx + velocity.x,
+          dy: state.dy + velocity.y,
+        };
       });
     }
   }
   const finishPanning = () => {
-    setState({
-      ...state,
-      pan: null,
-    });
+    pan.current = null;
   }
 
   const handleMouseDown = (args) => {
