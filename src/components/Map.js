@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 const Map = ({initialScale, minScale, maxScale, title, image, children}) => {
   const pan = useRef(null);
   const pinch = useRef(null);
+  const momentum = useRef(null);
 
   const [state, setState] = useState({
     dx: 0,
@@ -92,6 +93,7 @@ const Map = ({initialScale, minScale, maxScale, title, image, children}) => {
   }
 
   const beginPanning = (x, y) => {
+    momentum.current = null;
     pan.current = {
       last: { x, y },
     };
@@ -117,8 +119,51 @@ const Map = ({initialScale, minScale, maxScale, title, image, children}) => {
       });
     }
   }
+  const momentumPanning = (timestamp) => {
+    const m = momentum.current;
+
+    if (m == null) {
+      return;
+    }
+
+    const dx = m.velocity.x;
+    const dy = m.velocity.y;
+    const magnitudeSquared = dx*dx + dy*dy;
+   
+    if (magnitudeSquared < 4) {
+      momentum.current = null;
+      return;
+    }
+
+    setState((old) => {
+      return {
+        ...old,
+        dx: old.dx + dx,
+        dy: old.dy + dy,
+      }
+    });
+
+    const timeDelta = timestamp - m.lastTimestamp;
+    const percentSecond = timeDelta / 1000.0;
+
+    momentum.current = {
+      lastTimestamp: timestamp,
+      velocity: {
+        x: dx * (1.0 - percentSecond) * 0.95,
+        y: dy * (1.0 - percentSecond) * 0.95,
+      }
+    };
+
+    window.requestAnimationFrame(momentumPanning);
+  }
+
   const finishPanning = () => {
+    momentum.current = {
+      lastTimestamp: performance.now(),
+      velocity: pan.current.velocity,
+    };
     pan.current = null;
+    window.requestAnimationFrame(momentumPanning);
   }
 
   const handleMouseDown = (args) => {
