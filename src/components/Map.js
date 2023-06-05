@@ -122,7 +122,7 @@ const Map = ({initialScale, minScale, maxScale, title, image, children}) => {
   const momentumPanning = (timestamp) => {
     const m = momentum.current;
 
-    if (m == null) {
+    if (m == null || m.velocity == null) {
       return;
     }
 
