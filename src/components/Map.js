@@ -2,12 +2,12 @@ import React, { useEffect, useRef, useState } from 'react';
 
 const Map = ({initialScale, minScale, maxScale, title, image, children}) => {
   const pan = useRef(null);
+  const pinch = useRef(null);
 
   const [state, setState] = useState({
     dx: 0,
     dy: 0,
     s: initialScale,
-    pinch: null,
   })
 
   useEffect(() => {
@@ -58,16 +58,13 @@ const Map = ({initialScale, minScale, maxScale, title, image, children}) => {
     const dy = (y2 - y1);
     const magnitude = dx*dx + dy*dy
 
-    setState({
-      ...state,
-      pinch: {
-        last: magnitude,
-        velocity: null,
-      }
-    });
+    pinch.current = {
+      last: magnitude,
+      velocity: null,
+    };
   }
   const continuePinching = (x1, y1, x2, y2) => {
-    if (state.pinch) {
+    if (pinch.current) {
       const dx = (x2 - x1);
       const dy = (y2 - y1);
       const magnitude = dx*dx + dy*dy
@@ -75,23 +72,23 @@ const Map = ({initialScale, minScale, maxScale, title, image, children}) => {
       // The large divisor here is because the magnitudes are pretty big: first they haven't been
       // square rooted (doesn't matter since just looking for relative size) and second because
       // pixel differences are *not* the same as scale factors.
-      const velocity = (magnitude - state.pinch.last) / 10000.0;
+      const velocity = (magnitude - pinch.current.last) / 10000.0;
 
-      setState({
-        ...state,
-        pinch: {
-          last: magnitude,
-          velocity: velocity,
-        },
-        s: Math.min(maxScale, Math.max(minScale, state.s + velocity)),
+      pinch.current = {
+        last: magnitude,
+        velocity: velocity,
+      };
+
+      setState((old) => {
+        return {
+          ...old,
+          s: Math.min(maxScale, Math.max(minScale, state.s + velocity)),
+        };
       });
     }
   }
   const finishPinching = () => {
-    setState({
-      ...state,
-      pinch: null,
-    });
+    pinch.current = null;
   }
 
   const beginPanning = (x, y) => {
