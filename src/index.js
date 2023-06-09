@@ -10,10 +10,14 @@ import './style.css';
 const fatesEnd = {
   title: 'The Hinterlands of Fate\'s End',
   image: 'https://d1pyjk54yi0zpw.cloudfront.net/maps/fatesEnd.jpg',
-  initialScal: 0.5,
+  initialScale: 0.5,
   minScale: 0.1,
   maxScale: 3,
-  markers: [],
+  markers: [
+    { x: 2054, y: 1424, type: 'city' },
+    { x: 1106, y: 2108, type: 'city' },
+    { x: 3102, y: 2100, type: 'city' },
+  ],
 }
 
 const tocEntries = [
