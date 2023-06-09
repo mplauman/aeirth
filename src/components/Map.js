@@ -1,11 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-const Map = ({initialScale, minScale, maxScale, title, image, children}) => {
+import MapMarker from './MapMarker';
+
+const Map = ({initialScale, minScale, maxScale, title, image, markers}) => {
   const pan = useRef(null);
   const pinch = useRef(null);
   const momentum = useRef(null);
 
   const [state, setState] = useState({
+    w: null,
+    h: null,
     dx: 0,
     dy: 0,
     s: initialScale,
@@ -247,12 +251,19 @@ const Map = ({initialScale, minScale, maxScale, title, image, children}) => {
   const onImageLoad = async ({target}) => {
     setState({
       ...state,
+      w: target.naturalWidth,
+      h: target.naturalHeight,
       dx: state.dx - target.naturalWidth / 2,
       dy: state.dy - target.naturalHeight / 2,
     });
   }
 
+  const S = (1.0 - state.s) / 2.0
+  const WW = state.w * S
+  const HH = state.h * S
+
   return (
+    <>
     <img 
       onLoad={onImageLoad}
       draggable={false}
@@ -260,6 +271,14 @@ const Map = ({initialScale, minScale, maxScale, title, image, children}) => {
       src={image}
       alt={title}
     />
+    <div draggable={false} style={{position: "fixed", left: 0, top: 0, transform: "translate(50vw, 50vh) translate(" + state.dx + "px, " + state.dy + "px)"}}>
+    {
+      markers.map((marker, index) => {
+        return <MapMarker key={index} x={WW + marker.x * state.s} y={HH + marker.y * state.s} type='city'/>
+      })
+    }
+    </div>
+    </>
   )
 }
 

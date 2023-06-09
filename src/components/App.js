@@ -52,25 +52,13 @@ const App = ({tocEntries}) => {
     if (newState.map != null && newState.article != null) {
       newState.mainView = 
         <MainView>
-          <Map {...newState.map}>
-            {
-              newState.map.markers.map((marker, index) => {
-                return <MapMarker key={index} {...marker}/>
-              })
-            }
-          </Map>
+          <Map {...newState.map}/>
           <Article {...newState.article}/>
         </MainView>
     } else if (newState.map != null) {
       newState.mainView = 
         <MainView>
-          <Map {...newState.map}>
-            {
-              newState.map.markers.map((marker, index) => {
-                return <MapMarker key={index} {...marker}/>
-              })
-            }
-          </Map>
+          <Map {...newState.map}/>
         </MainView>
     } else if (newState.article != null) {
       newState.mainView =
