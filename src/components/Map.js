@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import MapMarker from './MapMarker';
 
+const ID = '69989e04-b229-4553-8c83-9a596f10c658';
+
 const Map = ({initialScale, minScale, maxScale, title, image, markers}) => {
   const pan = useRef(null);
   const pinch = useRef(null);
@@ -39,9 +41,24 @@ const Map = ({initialScale, minScale, maxScale, title, image, markers}) => {
     }
   }, [state])
 
+  const shouldHandle = (event) => {
+    var target = event.target
+
+    while (target != null) {
+      if (target.id == ID) {
+        return true
+      }
+
+      target = target.parentElement
+    }
+
+    return false;
+  }
+
   const handleMouseWheel = (args) => {
-    args.stopPropagation();
-    args.preventDefault();
+    if (!shouldHandle(args)) {
+      return
+    }
 
     var scale = 0.0;
     if (args.deltaY < 0) {
@@ -54,8 +71,6 @@ const Map = ({initialScale, minScale, maxScale, title, image, markers}) => {
       ...state,
       s: scale,
     });
-
-    return false;
   }
 
   const beginPinching = (x1, y1, x2, y2) => {
@@ -67,61 +82,78 @@ const Map = ({initialScale, minScale, maxScale, title, image, markers}) => {
       last: magnitude,
       velocity: null,
     };
+
+    return true
   }
   const continuePinching = (x1, y1, x2, y2) => {
-    if (pinch.current) {
-      const dx = (x2 - x1);
-      const dy = (y2 - y1);
-      const magnitude = dx*dx + dy*dy
-
-      // The large divisor here is because the magnitudes are pretty big: first they haven't been
-      // square rooted (doesn't matter since just looking for relative size) and second because
-      // pixel differences are *not* the same as scale factors.
-      const velocity = (magnitude - pinch.current.last) / 10000.0;
-
-      pinch.current = {
-        last: magnitude,
-        velocity: velocity,
-      };
-
-      setState((old) => {
-        return {
-          ...old,
-          s: Math.min(maxScale, Math.max(minScale, state.s + velocity)),
-        };
-      });
+    if (!pinch.current) {
+      return false
     }
+
+    const dx = (x2 - x1);
+    const dy = (y2 - y1);
+    const magnitude = dx*dx + dy*dy
+
+    // The large divisor here is because the magnitudes are pretty big: first they haven't been
+    // square rooted (doesn't matter since just looking for relative size) and second because
+    // pixel differences are *not* the same as scale factors.
+    const velocity = (magnitude - pinch.current.last) / 10000.0;
+
+    pinch.current = {
+      last: magnitude,
+      velocity: velocity,
+    };
+
+    setState((old) => {
+      return {
+        ...old,
+        s: Math.min(maxScale, Math.max(minScale, state.s + velocity)),
+      };
+    });
+
+    return true
   }
   const finishPinching = () => {
-    pinch.current = null;
+    if (pinch.current == null) {
+      return false
+    }
+
+    pinch.current = null
+    return true
   }
 
   const beginPanning = (x, y) => {
     momentum.current = null;
     pan.current = {
       last: { x, y },
-    };
+    }
+
+    return true
   }
   const continuePanning = (x, y) => {
-    if (pan.current) {
-      const velocity = { 
-        x: x - pan.current.last.x,
-        y: y - pan.current.last.y,
-      };
-
-      pan.current = { 
-        last: { x, y },
-        velocity: velocity,
-      };
-
-      setState((old) => {
-        return {
-          ...old,
-          dx: state.dx + velocity.x,
-          dy: state.dy + velocity.y,
-        };
-      });
+    if (!pan.current) {
+      return false
     }
+
+    const velocity = { 
+      x: x - pan.current.last.x,
+      y: y - pan.current.last.y,
+    };
+
+    pan.current = { 
+      last: { x, y },
+      velocity: velocity,
+    };
+
+    setState((old) => {
+      return {
+        ...old,
+        dx: old.dx + (velocity.x / old.s),
+        dy: old.dy + (velocity.y / old.s),
+      };
+    });
+
+    return true
   }
   const momentumPanning = (timestamp) => {
     const m = momentum.current;
@@ -142,8 +174,8 @@ const Map = ({initialScale, minScale, maxScale, title, image, markers}) => {
     setState((old) => {
       return {
         ...old,
-        dx: old.dx + dx,
-        dy: old.dy + dy,
+        dx: old.dx + (dx / old.s),
+        dy: old.dy + (dy / old.s),
       }
     });
 
@@ -162,90 +194,90 @@ const Map = ({initialScale, minScale, maxScale, title, image, markers}) => {
   }
 
   const finishPanning = () => {
+    if (!pan.current) {
+      return false
+    }
+
     momentum.current = {
       lastTimestamp: performance.now(),
       velocity: pan.current.velocity,
     };
     pan.current = null;
     window.requestAnimationFrame(momentumPanning);
+
+    return true
   }
 
   const handleMouseDown = (args) => {
-    args.stopPropagation();
-    args.preventDefault();
-
-    beginPanning(args.clientX, args.clientY);
-
-    return false;
+    if (shouldHandle(args) && beginPanning(args.clientX, args.clientY)) {
+      args.stopPropagation();
+      args.preventDefault();
+    }
   }
   const handleMouseMove = (args) => {
-    args.stopPropagation();
-    args.preventDefault();
-
-    continuePanning(args.clientX, args.clientY);
-
-    return false;
+    if (continuePanning(args.clientX, args.clientY)) {
+      args.stopPropagation();
+      args.preventDefault();
+    }
   }
   const handleMouseUp = (args) => {
-    args.stopPropagation();
-    args.preventDefault();
-
-    finishPanning();
-
-    return false;
+    if (finishPanning()) {
+      args.stopPropagation();
+      args.preventDefault();
+    }
   }
 
   const handleTouchStart = (args) => {
-    args.stopPropagation();
-    args.preventDefault();
-
-    if (args.targetTouches.length == 1) {
-      beginPanning(args.targetTouches[0].clientX, args.targetTouches[0].clientY);
+    if (!shouldHandle(args)) {
+      return
     }
+
+    const touches = args.targetTouches
+
+    if (touches.length == 1 && beginPanning(touches[0].clientX, touches[0].clientY)) {
+      args.stopPropagation();
+      args.preventDefault();
+    }
+
     
-    if (args.targetTouches.length == 2) {
-      beginPinching(
-        args.targetTouches[0].clientX,
-        args.targetTouches[0].clientY,
-        args.targetTouches[1].clientX,
-        args.targetTouches[1].clientY,
-      )
+    if (touches.length == 2 && beginPinching(touches[0].clientX, touches[0].clientY, touches[1].clientX, touches[1].clientY)) {
+      args.stopPropagation();
+      args.preventDefault();
     }
-
-    return false;
   }
   const handleTouchMove = (args) => {
-    args.stopPropagation();
-    args.preventDefault();
+    if (!shouldHandle(args)) {
+      return
+    }
 
-    if (args.targetTouches.length == 1) {
-      continuePanning(args.targetTouches[0].clientX, args.targetTouches[0].clientY);
+    const touches = args.targetTouches
+    
+    if (args.targetTouches.length == 1 && continuePanning(touches[0].clientX, touches[0].clientY)) {
+      args.stopPropagation();
+      args.preventDefault();
     }
     
-    if (args.targetTouches.length == 2) {
-      continuePinching(
-        args.targetTouches[0].clientX,
-        args.targetTouches[0].clientY,
-        args.targetTouches[1].clientX,
-        args.targetTouches[1].clientY,
-      )
+    if (args.targetTouches.length == 2 && continuePinching(touches[0].clientX, touches[0].clientY, touches[1].clientX, touches[1].clientY)) {
+      args.stopPropagation();
+      args.preventDefault();
     }
-
-    return false;
   }
   const handleTouchEnd = (args) => {
-    args.stopPropagation();
-    args.preventDefault();
+    if (!shouldHandle(args)) {
+      return
+    }
 
-    if (args.targetTouches.length == 0) {
-      finishPanning();
+    const touches = args.targetTouches
+    
+    if (touches.length == 0 && finishPanning()) {
+      args.stopPropagation();
+      args.preventDefault();
     }
     
-    if (args.targetTouches.length == 1) {
-      finishPinching()
+    if (touches.length == 1 && finishPinching()) {
+      args.stopPropagation();
+      args.preventDefault();
     }
-
-    return false;
   }
 
   const onImageLoad = async ({target}) => {
@@ -253,32 +285,30 @@ const Map = ({initialScale, minScale, maxScale, title, image, markers}) => {
       ...state,
       w: target.naturalWidth,
       h: target.naturalHeight,
-      dx: state.dx - target.naturalWidth / 2,
-      dy: state.dy - target.naturalHeight / 2,
     });
   }
 
   const S = (1.0 - state.s) / 2.0
   const WW = state.w * S
   const HH = state.h * S
+  const DX = (state.dx * state.s) - state.w / 2.0
+  const DY = (state.dy * state.s) - state.h / 2.0
 
   return (
-    <>
-    <img 
-      onLoad={onImageLoad}
-      draggable={false}
-      style={{position: "fixed", left: 0, top: 0, transform: "translate(50vw, 50vh) translate(" + state.dx + "px, " + state.dy + "px) scale(" + state.s + ")"}}
-      src={image}
-      alt={title}
-    />
-    <div draggable={false} style={{position: "fixed", left: 0, top: 0, transform: "translate(50vw, 50vh) translate(" + state.dx + "px, " + state.dy + "px)"}}>
-    {
-      markers.map((marker, index) => {
-        return <MapMarker key={index} x={WW + marker.x * state.s} y={HH + marker.y * state.s} type='city'/>
-      })
-    }
+    <div id={ID} style={{position: "fixed", left: 0, top: 0, transform: "translate(50vw, 50vh) translate(" + DX + "px, " + DY + "px)"}}>
+      <img 
+        onLoad={onImageLoad}
+        draggable={false}
+        style={{transform: "scale(" + state.s + ")"}}
+        src={image}
+        alt={title}
+      />
+      {
+        markers.map((marker, index) => {
+          return <MapMarker key={index} x={WW + marker.x * state.s} y={HH + marker.y * state.s} type='city'/>
+        })
+      }
     </div>
-    </>
   )
 }
 
