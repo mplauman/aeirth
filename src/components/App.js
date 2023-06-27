@@ -12,7 +12,7 @@ const buildTableOfContents = (path, tocEntry, setCurrentArticle) => {
     const itemPath = path + "/" + tocEntry.title;
 
     if (tocEntry.children != null) {
-      return <Category key={itemPath} path={itemPath} title={tocEntry.title}>{ buildTableOfContents(itemPath, tocEntry.children, setCurrentArticle) }</Category>;
+      return <Category key={itemPath} title={tocEntry.title}>{ buildTableOfContents(itemPath, tocEntry.children, setCurrentArticle) }</Category>;
     }
 
     const clickHandler = () => {
@@ -24,8 +24,36 @@ const buildTableOfContents = (path, tocEntry, setCurrentArticle) => {
   });
 };
 
+const findTocEntry = (target, toc) => {
+  const entries = [...toc]
+  const matches = []
+  const targetFile = target + '.md'
 
-const App = ({tocEntries}) => {
+  while (entries.length > 0) {
+    const entry = entries.shift()
+
+    if (entry.children) {
+      entries.push(...entry.children)
+      continue
+    }
+
+    const wikiForm = entry.article.path.toLowerCase().replaceAll(' ', '_')
+    if (wikiForm.endsWith(targetFile)) {
+      matches.push(entry)
+    }
+  }
+
+  if (matches.length == 1) {
+    return matches[0]
+  }
+
+  return matches.find( (candidate) => {
+    console.log(candidate.article.path)
+    return candidate.article.path.toLowerCase().replaceAll(' ', '_') == './' + targetFile;
+  })
+ }
+
+const App = ({context, tocEntries}) => {
   // Initial state:
   // - article closed
   // - article content empty
@@ -44,39 +72,46 @@ const App = ({tocEntries}) => {
     };
 
     if (newState.article != null) {
-      const articleModule = await newState.article.module;
-      const articleData = await fetch(articleModule.default);
+      const articlePath = context(newState.article.path);
+      const articleData = await fetch(articlePath);
       newState.article.content = await articleData.text();
-    }
-
-    if (newState.map != null && newState.article != null) {
-      newState.mainView = 
-        <MainView>
-          <Map {...newState.map}/>
-          <Article {...newState.article}/>
-        </MainView>
-    } else if (newState.map != null) {
-      newState.mainView = 
-        <MainView>
-          <Map {...newState.map}/>
-        </MainView>
-    } else if (newState.article != null) {
-      newState.mainView =
-        <MainView>
-          <Article {...newState.article}/>
-        </MainView>
-    } else {
-      newState.mainView = <></>
     }
 
     setState(newState);
   }
 
+  // on click: find the TOC entry that shares a heading with the article
+  const handleLinkClick = async (href) => {
+    const found = findTocEntry(href, tocEntries)
+    if (found) {
+      setCurrentArticle(found)
+    }
+  }
+
   const tableOfContents = buildTableOfContents('', tocEntries, setCurrentArticle);
+
+  var mainView = <></>
+  if (state.map != null && state.article != null) {
+    mainView = 
+      <MainView>
+        <Map {...state.map}/>
+        <Article {...state.article} handleLinkClick={handleLinkClick}/>
+      </MainView>
+  } else if (state.map != null) {
+    mainView = 
+      <MainView>
+        <Map {...state.map}/>
+      </MainView>
+  } else if (state.article != null) {
+    mainView =
+      <MainView>
+        <Article {...state.article} handleLinkClick={handleLinkClick}/>
+      </MainView>
+  }
 
   return (
     <>
-      {state.mainView}
+      {mainView}
       <TableOfContents open={state.showNavigation}>{ tableOfContents }</TableOfContents>
     </>
   )

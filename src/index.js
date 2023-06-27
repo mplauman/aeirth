@@ -20,11 +20,16 @@ const fatesEnd = {
   ],
 }
 
+const context = require.context('./content/', true, /\.md$/)
+context.keys().forEach( (key) => {
+  console.log(key, context.resolve(key))
+})
+
 const tocEntries = [
   {
     title: 'Welcome',
     article: {
-      module: import('./content/Welcome.md'),
+      path: './Welcome.md',
     }
   },
   {
@@ -35,7 +40,7 @@ const tocEntries = [
         map: null,
         article: {
           title: 'The Gods of Aeirth',
-          module: import('./content/Background/Gods of Aeirth.md'),
+          path: './Background/Gods of Aeirth.md',
         }
       },
       {
@@ -43,7 +48,7 @@ const tocEntries = [
         map: null,
         article: {
           title: 'The Calendar of Aeirth',
-          module: import('./content/Background/The Calendar.md'),
+          path: './Background/The Calendar.md',
         }
       },
     ]
@@ -55,7 +60,7 @@ const tocEntries = [
         title: 'Overview',
         article: {
           title: 'Campaign Overview',
-          module: import('./content/Watchmans/Overview.md'),
+          path: './Watchmans/Overview.md',
         }
       },
       {
@@ -66,7 +71,7 @@ const tocEntries = [
             map: fatesEnd,
             article: {
               title: 'A Murder Scene Most Fowl',
-              module: import('./content/Watchmans/231.12.21 - A Murder Scene Most Fowl.md'),
+              path: './Watchmans/231.12.21 - A Murder Scene Most Fowl.md',
             },
           },
           {
@@ -74,7 +79,7 @@ const tocEntries = [
             map: fatesEnd,
             article: {
               title: 'The Assignment',
-              module: import('./content/Watchmans/231.13.06 - The Assignment.md'),
+              path: './Watchmans/231.13.06 - The Assignment.md',
             },
           },
           {
@@ -82,7 +87,7 @@ const tocEntries = [
             map: fatesEnd,
             article: {
               title: 'A Watch Failure',
-              module: import('./content/Watchmans/231.13.07 - A Watch Failure.md'),
+              path: './Watchmans/231.13.07 - A Watch Failure.md',
             },
           },
           {
@@ -90,7 +95,7 @@ const tocEntries = [
             map: fatesEnd,
             article: {
               title: 'Safe Haven',
-              module: import('./content/Watchmans/231.14.01 - Safe Haven.md'),
+              path: './Watchmans/231.14.01 - Safe Haven.md',
             },
           },
           {
@@ -98,7 +103,7 @@ const tocEntries = [
             map: fatesEnd,
             article: {
               title: 'Instigating and Investigating',
-              module: import('./content/Watchmans/231.14.02 - Instigating and Investigating.md'),
+              path: './Watchmans/231.14.02 - Instigating and Investigating.md',
             },
           },
           {
@@ -106,7 +111,7 @@ const tocEntries = [
             map: fatesEnd,
             article: {
               title: 'Mutual Ambushing',
-              module: import('./content/Watchmans/231.14.03 - Mutual Ambushing.md'),
+              path: './Watchmans/231.14.03 - Mutual Ambushing.md',
             },
           },
           {
@@ -114,7 +119,7 @@ const tocEntries = [
             map: fatesEnd,
             article: {
               title: 'The Report',
-              module: import('./content/Watchmans/231.14.04 - The Report.md'),
+              path: './Watchmans/231.14.04 - The Report.md',
             },
           },
         ]
@@ -128,21 +133,21 @@ const tocEntries = [
         title: 'Oggogul the Monk',
         article: {
           title: 'Oggogul',
-          module: import('./content/Characters and Factions/Oggogul.md'),
+          path: './Characters and Factions/Oggogul.md',
         },
       },
       {
         title: 'Pally',
         article: {
           title: 'Pally the Paladin',
-          module: import('./content/Characters and Factions/Pally.md'),
+          path: './Characters and Factions/Pally.md',
         },
       },
       {
         title: 'Romin',
         article: {
           title: 'Sergeant Romin',
-          module: import('./content/Characters and Factions/Romin.md'),
+          path: './Characters and Factions/Romin.md',
         },
       },
     ]
@@ -155,7 +160,7 @@ const tocEntries = [
         map: fatesEnd,
         article: {
           title: 'Mog Caern',
-          module: import('./content/Locations/Mog Caern.md'),
+          path: './Locations/Mog Caern.md',
         },
       },
       {
@@ -163,7 +168,7 @@ const tocEntries = [
         map: fatesEnd,
         article: {
           title: 'Roadside Camp',
-          module: import('./content/Locations/Roadside Camp.md'),
+          path: './Locations/Roadside Camp.md',
         },
       },
       {
@@ -171,7 +176,7 @@ const tocEntries = [
         map: fatesEnd,
         article: {
           title: 'Sly Fox Inn',
-          module: import('./content/Locations/Sly Fox Inn.md'),
+          path: './Locations/Sly Fox Inn.md',
         },
       },
       {
@@ -179,7 +184,7 @@ const tocEntries = [
         map: fatesEnd,
         article: {
           title: 'The Salt Wastes',
-          module: import('./content/Locations/The Salt Wastes.md'),
+          path: './Locations/The Salt Wastes.md',
         },
       },
     ]
@@ -188,6 +193,6 @@ const tocEntries = [
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App tocEntries={tocEntries}/>
+    <App context={context} tocEntries={tocEntries}/>
   </React.StrictMode>
 );
