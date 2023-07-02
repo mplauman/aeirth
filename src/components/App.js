@@ -19,8 +19,6 @@ const buildRoutes = (context, tocEntries) => {
     if (tocEntry.children != null) {
       return buildRoutes(context, tocEntry.children)
     }
-
-    console.log("Building route to ", tocEntry.article.path.substr(1))
     
     if (tocEntry.article == null) {
       return []

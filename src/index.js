@@ -21,10 +21,6 @@ const fatesEnd = {
 }
 
 const context = require.context('./content/', true, /\.md$/)
-context.keys().forEach( (key) => {
-  console.log(key, context.resolve(key))
-})
-
 const tocEntries = [
   {
     title: 'Welcome',
