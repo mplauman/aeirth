@@ -1,8 +1,8 @@
 import React from 'react';
 
-const Category = ({title, children}) => {
+const Category = ({tocEntry, children}) => {
   return (
-    <li className='category'>{title}
+    <li className='category'>{tocEntry.title}
       <ul>{children}</ul>
     </li>
   )

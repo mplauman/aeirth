@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 import Article from './Article';
 import ArticleLink from './ArticleLink';
@@ -7,78 +7,85 @@ import MainView from './MainView';
 import Map from './Map';
 import TableOfContents from './TableOfContents';
 
-const buildTableOfContents = (path, tocEntry, setCurrentArticle) => {
-  return tocEntry.map( (tocEntry) => {
-    const itemPath = path + "/" + tocEntry.title;
+import {
+  createBrowserRouter,
+  createHashRouter,
+  RouterProvider,
+  Outlet,
+} from "react-router-dom";
 
+const buildRoutes = (context, tocEntries) => {
+  const routes = tocEntries.flatMap( (tocEntry) => {
     if (tocEntry.children != null) {
-      return <Category key={itemPath} path={itemPath} title={tocEntry.title}>{ buildTableOfContents(itemPath, tocEntry.children, setCurrentArticle) }</Category>;
+      return buildRoutes(context, tocEntry.children)
+    }
+    
+    if (tocEntry.article == null) {
+      return []
     }
 
-    const clickHandler = () => {
-      setCurrentArticle(tocEntry)
-      return false
+    if (tocEntry.map != null) {
+      return [
+        {
+          path: tocEntry.article.path.substr(1),
+          element:
+            <MainView>
+              <Map {...tocEntry.map}/>
+              <Article context={context} tocEntry={tocEntry}/>
+            </MainView>
+        }
+      ]
     }
 
-    return <ArticleLink key={itemPath} onClick={clickHandler} title={tocEntry.title}/>
+    return [
+      {
+        path: tocEntry.article.path.substr(1),
+        element:
+          <MainView>
+            <Article context={context} tocEntry={tocEntry}/>
+          </MainView>
+      }
+    ]
+  });
+
+  const initial = {
+    path: "/",
+    element: routes[0].element
+  }
+
+  routes.unshift(initial)
+
+  return routes
+};
+
+const buildNavigation = (tocEntries) => {
+  return tocEntries.map( (tocEntry, index) => {
+    if (tocEntry.children != null) {
+      return <Category key={index} tocEntry={tocEntry}>{ buildNavigation(tocEntry.children) }</Category>;
+    }
+
+    return <ArticleLink key={index} tocEntry={tocEntry}/>
   });
 };
 
-
-const App = ({tocEntries}) => {
-  // Initial state:
-  // - article closed
-  // - article content empty
-  // - navbar closed
-  // - fate's end map, centered on mog caern
-  const [state, setState] = useState({
-    title: null,
-    map: null,
-    article: null,    
-  });
-
-  const setCurrentArticle = async (item) => {
-    const newState = {
-      ...state,
-      ...item,
-    };
-
-    if (newState.article != null) {
-      const articleModule = await newState.article.module;
-      const articleData = await fetch(articleModule.default);
-      newState.article.content = await articleData.text();
-    }
-
-    if (newState.map != null && newState.article != null) {
-      newState.mainView = 
-        <MainView>
-          <Map {...newState.map}/>
-          <Article {...newState.article}/>
-        </MainView>
-    } else if (newState.map != null) {
-      newState.mainView = 
-        <MainView>
-          <Map {...newState.map}/>
-        </MainView>
-    } else if (newState.article != null) {
-      newState.mainView =
-        <MainView>
-          <Article {...newState.article}/>
-        </MainView>
-    } else {
-      newState.mainView = <></>
-    }
-
-    setState(newState);
-  }
-
-  const tableOfContents = buildTableOfContents('', tocEntries, setCurrentArticle);
-
+const App = ({context, tocEntries}) => {
   return (
-    <>
-      {state.mainView}
-      <TableOfContents open={state.showNavigation}>{ tableOfContents }</TableOfContents>
-    </>
+    <RouterProvider
+      router={
+        createHashRouter([
+          {
+            "path": "/",
+            element: <>
+              <Outlet/>
+              <TableOfContents open={true}>
+                { buildNavigation(tocEntries) }
+              </TableOfContents>
+            </>,
+            children: buildRoutes(context, tocEntries),
+          }
+        ])
+      }
+    />
   )
 }
 

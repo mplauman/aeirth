@@ -47,6 +47,13 @@ div.marker svg {
   font-size: medium;
 }
 
+.content .articleLink {
+  font-style: normal;
+  font-size: normal;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .tableOfContents > div {
   position: relative;
   top: 60px;
