@@ -9,6 +9,7 @@ import TableOfContents from './TableOfContents';
 
 import {
   createBrowserRouter,
+  createHashRouter,
   RouterProvider,
   Outlet,
 } from "react-router-dom";
@@ -73,7 +74,7 @@ const App = ({context, tocEntries}) => {
   return (
     <RouterProvider
       router={
-        createBrowserRouter([
+        createHashRouter([
           {
             "path": "/",
             element: <>
