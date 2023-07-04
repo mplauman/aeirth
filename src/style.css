@@ -97,18 +97,9 @@ div.marker svg {
   height: 100%;
 }
 
-.informationDrawer {
-  position: fixed;
-  left: 20%;
-  top: 80%;
-  width: 60%;
-  height: 20%;
-  background-color: var(--background-color);
-}
-
 .informationDrawer .toolbar {
   display: flex;
-  height: 25px;
+  height: 50px;
   width: 100%;
   cursor: pointer;
 }
@@ -119,12 +110,13 @@ div.marker svg {
   justify-content: center;
   width: 100%;
   font-weight: bold;
+  font-size: large;
 }
 
 .informationDrawer .icon {
   float: right;
-  width: 25px;
-  height: 25px;
+  width: 50px;
+  height: 50px;
 }
 
 .informationDrawer .icon svg {
@@ -138,5 +130,19 @@ div.marker svg {
   overflow-x: clip;
   padding-left: 5px;
   padding-right: 5px;
+  height: 100%;
+}
+
+.reopen {
+  position: fixed;
+  top: calc(100vh - 50px);
+  left: calc(100vw - 50px);
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}
+
+.reopen svg {
+  width: 100%;
   height: 100%;
 }

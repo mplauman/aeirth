@@ -3,41 +3,29 @@ import React, { useState } from 'react';
 import Minimize from './icons/mini-chevron-down.svg';
 import Maximize from './icons/mini-chevron-up.svg';
 
-import { animated, useSpring } from '@react-spring/web';
-
-const OPENED = { top: 'calc(80% - 25px)', height: 'calc(20% + 25px)' }
-const CLOSED = { top: 'calc(100% - 25px)', height: 'calc(0% + 25px)' }
+import Drawer from '@mui/material/Drawer';
 
 const InformationDrawer = ({title, children}) => {
-  const [closed, setClosed] = useState(null);
-
-  var props;
-  if (closed == null) {
-    props = useSpring({from: OPENED, to: OPENED});
-  }
-  else if (closed) {
-    props = useSpring({from: OPENED, to: CLOSED});
-  }
-  else {
-    props = useSpring({from: CLOSED, to: OPENED});
-  }
-
-  const toggleOpen = () => {
-    setClosed(closed == null || !closed);
-  }
+  const [open, setOpen] = useState(true);
 
   return (
-    <animated.div className='informationDrawer' style={props}>
-      <div className='toolbar' onClick={toggleOpen}>
-        <div className='title'>{title}</div>
-        <div className='icon'>
-          {(closed == null || !closed) ? <Minimize/> : <Maximize/>}
+    <>
+      <Drawer className='informationDrawer'
+          sx={{ flexShrink: 0 }}
+          variant="persistent"
+          anchor="bottom"
+          open={open}
+      >
+        <div className='toolbar' onClick={() => setOpen(!open) }>
+          <div className='title'>{title}</div>
+          <div className='icon'>
+            {open ? <Minimize/> : <Maximize/>}
+          </div>
         </div>
-      </div>
-      <div className='content'>
         {children}
-      </div>
-    </animated.div>
+      </Drawer>
+      { open ? '' : <div className='reopen' onClick={() => setOpen(true)}><Maximize/></div> }
+    </>
   )
 }
 
