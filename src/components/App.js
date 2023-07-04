@@ -1,7 +1,6 @@
 import React from 'react';
 
 import Article from './Article';
-import MainView from './MainView';
 import Map from './Map';
 import TableOfContents from './TableOfContents';
 
@@ -26,10 +25,10 @@ const buildRoutes = (context, tocEntries) => {
         {
           path: tocEntry.article.path.substr(1),
           element:
-            <MainView>
+            <>
               <Map {...tocEntry.map}/>
               <Article context={context} tocEntry={tocEntry}/>
-            </MainView>
+            </>
         }
       ]
     }
@@ -38,9 +37,7 @@ const buildRoutes = (context, tocEntries) => {
       {
         path: tocEntry.article.path.substr(1),
         element:
-          <MainView>
-            <Article context={context} tocEntry={tocEntry}/>
-          </MainView>
+          <Article context={context} tocEntry={tocEntry}/>
       }
     ]
   });
@@ -63,7 +60,9 @@ const App = ({context, tocEntries}) => {
           {
             "path": "/",
             element: <>
-              <Outlet/>
+              <div className='mainView'>
+                <Outlet/>
+              </div>
               <TableOfContents>{tocEntries}</TableOfContents>
             </>,
             children: buildRoutes(context, tocEntries),
