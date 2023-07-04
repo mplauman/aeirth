@@ -1,14 +1,11 @@
 import React from 'react';
 
 import Article from './Article';
-import ArticleLink from './ArticleLink';
-import Category from './Category';
 import MainView from './MainView';
 import Map from './Map';
 import TableOfContents from './TableOfContents';
 
 import {
-  createBrowserRouter,
   createHashRouter,
   RouterProvider,
   Outlet,
@@ -58,16 +55,6 @@ const buildRoutes = (context, tocEntries) => {
   return routes
 };
 
-const buildNavigation = (tocEntries) => {
-  return tocEntries.map( (tocEntry, index) => {
-    if (tocEntry.children != null) {
-      return <Category key={index} tocEntry={tocEntry}>{ buildNavigation(tocEntry.children) }</Category>;
-    }
-
-    return <ArticleLink key={index} tocEntry={tocEntry}/>
-  });
-};
-
 const App = ({context, tocEntries}) => {
   return (
     <RouterProvider
@@ -77,9 +64,7 @@ const App = ({context, tocEntries}) => {
             "path": "/",
             element: <>
               <Outlet/>
-              <TableOfContents open={true}>
-                { buildNavigation(tocEntries) }
-              </TableOfContents>
+              <TableOfContents>{tocEntries}</TableOfContents>
             </>,
             children: buildRoutes(context, tocEntries),
           }

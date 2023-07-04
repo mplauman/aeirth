@@ -1,41 +1,36 @@
 import React, { useState } from 'react';
 
-import { animated, useSpring } from '@react-spring/web';
+import Box from '@mui/material/Box';
+import Drawer from '@mui/material/Drawer';
 
+import ArticleLink from './ArticleLink';
+import Category from './Category';
 import CloseIcon from './icons/close.svg';
 import MenuIcon from './icons/menu.svg';
 
 const TableOfContents = ({children}) => {
-  const [open, setOpen] = useState(null)
+  const [open, setOpen] = useState(false)
 
-  var props;
-  if (open == null) {
-    props = useSpring({
-      from: { width: 0 },
-      to: { width: 0 }
-    })
-  }
-  else {
-    props = useSpring({
-      from: { width: open ? '0%' : '15%' },
-      to: { width: open ? '15%' : '0%' }
+  const buildNavigation = (tocEntries) => {
+    return tocEntries.map( (tocEntry, index) => {
+      if (tocEntry.children != null) {
+        return <Category key={index} tocEntry={tocEntry}>{ buildNavigation(tocEntry.children) }</Category>;
+      }
+  
+      return <ArticleLink key={index} tocEntry={tocEntry}/>
     });
-  }
-
-  const toggleOpen = () => {
-    setOpen(open == null || !open);
-  }
-
+  };
+  
   return (
     <>
-      <animated.div className='tableOfContents' style={{width: props.width}}>
-        <div>
+      <Drawer anchor='left' open={open == null ? false : open} onClose={() => setOpen(false)}>
+        <Box className='tableOfContents' sx={{ width: 'auto', overflowY: 'scroll' }} role='presentation' onClick={() => setOpen(false)} onKeyDown={() => setOpen(false)}>
           <ul>
-            {children}
+            { buildNavigation(children) }
           </ul>
-        </div>
-      </animated.div>
-      <div onClick={toggleOpen} className='tableOfContentsButton'>
+        </Box>
+      </Drawer>
+      <div onClick={() => setOpen(!open)} className='tableOfContentsButton'>
         {open ? <CloseIcon/> : <MenuIcon/>}
       </div>
     </>
