@@ -2,12 +2,17 @@
   --background-color: #EBEBEB;  
 }
 
+div.app {
+  z-index: 0;
+}
+
 div.mainView {
   position: fixed;
   top: 0px;
   left: 0px;
   width: 100vw;
   height: 100vh;
+  z-index: 1;
 }
 
 div.marker {
@@ -26,6 +31,10 @@ div.marker svg {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+
+div.toc {
+  z-index: 10;
 }
 
 .tableOfContents {
@@ -90,6 +99,7 @@ div.marker svg {
   width: 50px;
   height: 50px;
   cursor: pointer;
+  z-index: 9;
 }
 
 .tableOfContentsButton svg {

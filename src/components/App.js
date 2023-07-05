@@ -71,14 +71,14 @@ const Layout = ({tocEntries}) => {
   const [tocOpen, setTocOpen] = useState(false)
 
   return (
-    <>
+    <div className='app'>
       {/* The main window where the map and whatnot gets displayed */}
       <div className='mainView'>
         <Outlet/>
       </div>
 
       {/* The table of contents drawer */}
-      <Drawer anchor='left' open={tocOpen} onClose={() => setTocOpen(false)}>
+      <Drawer className='toc' anchor='left' open={tocOpen} onClose={() => setTocOpen(false)}>
         <Box className='tableOfContents' sx={{ width: 'auto', overflowY: 'scroll' }} role='presentation' onClick={() => setTocOpen(false)} onKeyDown={() => setTocOpen(false)}>
           <ul>{ buildNavigation(tocEntries) }</ul>
         </Box>
@@ -88,7 +88,7 @@ const Layout = ({tocEntries}) => {
       <div className='tableOfContentsButton' onClick={() => setTocOpen(!tocOpen)} >
         {tocOpen ? <CloseIcon/> : <MenuIcon/>}
       </div>
-    </>
+    </div>
   )
 }
 
