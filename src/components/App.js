@@ -4,20 +4,20 @@ import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 
 import Article from './Article';
-import ArticleLink from './ArticleLink';
-import Category from './Category';
 import Map from './Map';
+
 import CloseIcon from './icons/close.svg';
 import MenuIcon from './icons/menu.svg';
 
 import {
   createHashRouter,
+  Link,
   RouterProvider,
   Outlet,
 } from "react-router-dom";
 
 const buildRoutes = (context, tocEntries) => {
-  const routes = tocEntries.flatMap( (tocEntry) => {
+  return tocEntries.flatMap( (tocEntry) => {
     if (tocEntry.children != null) {
       return buildRoutes(context, tocEntry.children)
     }
@@ -47,57 +47,72 @@ const buildRoutes = (context, tocEntries) => {
       }
     ]
   });
+};
 
+const buildNavigation = (tocEntries) => {
+  return tocEntries.map( (tocEntry, index) => {
+
+    if (tocEntry.children) {
+      return (
+        <li className='category' key={index}>{tocEntry.title}
+          <ul>{ buildNavigation(tocEntry.children) }</ul>
+        </li>
+      )
+    } else {    
+      return (
+        <li className='articleLink' key={index}>
+          <Link to={tocEntry.article.path}>{tocEntry.title}</Link>
+        </li>
+      )
+    }
+  });
+};
+
+const Layout = ({tocEntries}) => {
+  const [tocOpen, setTocOpen] = useState(false)
+
+  return (
+    <>
+      {/* The main window where the map and whatnot gets displayed */}
+      <div className='mainView'>
+        <Outlet/>
+      </div>
+
+      {/* The table of contents drawer */}
+      <Drawer anchor='left' open={tocOpen} onClose={() => setTocOpen(false)}>
+        <Box className='tableOfContents' sx={{ width: 'auto', overflowY: 'scroll' }} role='presentation' onClick={() => setTocOpen(false)} onKeyDown={() => setTocOpen(false)}>
+          <ul>{ buildNavigation(tocEntries) }</ul>
+        </Box>
+      </Drawer>
+
+      {/* A button used to open and close the table of contents */}
+      <div className='tableOfContentsButton' onClick={() => setTocOpen(!tocOpen)} >
+        {tocOpen ? <CloseIcon/> : <MenuIcon/>}
+      </div>
+    </>
+  )
+}
+
+const App = ({context, tocEntries}) => {
+  const routes = buildRoutes(context, tocEntries)
   const initial = {
     path: "/",
     element: routes[0].element
   }
 
-  routes.unshift(initial)
-
-  return routes
-};
-
-
-const buildNavigation = (tocEntries) => {
-  return tocEntries.map( (tocEntry, index) => {
-    if (tocEntry.children != null) {
-      return <Category key={index} tocEntry={tocEntry}>{ buildNavigation(tocEntry.children) }</Category>;
+  // Using a hash router here because there's no server to speak to, making it impossible to forward all
+  // paths to a single endpoint. Hash routing puts all the logic into the page itself so that stuff like
+  // bookmarks and whatnot will work. 
+  const router = createHashRouter([
+    {
+      path: '/',
+      element: <Layout tocEntries={tocEntries}/>,
+      children: [initial].concat(routes),
     }
-
-    return <ArticleLink key={index} tocEntry={tocEntry}/>
-  });
-};
-
-const App = ({context, tocEntries}) => {
-  const [tocOpen, setTocOpen] = useState(false)
+  ])
 
   return (
-    <RouterProvider
-      router={
-        createHashRouter([
-          {
-            "path": "/",
-            element: <>
-              <div className='mainView'>
-                <Outlet/>
-              </div>
-              <Drawer anchor='left' open={tocOpen} onClose={() => setTocOpen(false)}>
-                <Box className='tableOfContents' sx={{ width: 'auto', overflowY: 'scroll' }} role='presentation' onClick={() => setTocOpen(false)} onKeyDown={() => setTocOpen(false)}>
-                  <ul>
-                    { buildNavigation(tocEntries) }
-                  </ul>
-                </Box>
-              </Drawer>
-              <div onClick={() => setTocOpen(!tocOpen)} className='tableOfContentsButton'>
-                {tocOpen ? <CloseIcon/> : <MenuIcon/>}
-              </div>
-            </>,
-            children: buildRoutes(context, tocEntries),
-          }
-        ])
-      }
-    />
+    <RouterProvider router={router}/>
   )
 }
 
