@@ -18,7 +18,7 @@ import {
 
 const buildRoutes = (context, tocEntries) => {
   return tocEntries.flatMap( (tocEntry) => {
-    if (tocEntry.children != null) {
+    if (tocEntry.children) {
       return buildRoutes(context, tocEntry.children)
     }
     
@@ -32,8 +32,8 @@ const buildRoutes = (context, tocEntries) => {
           path: tocEntry.article.path.substr(1),
           element:
             <>
-              <Map {...tocEntry.map}/>
-              <Article context={context} tocEntry={tocEntry}/>
+              <Map key='map' {...tocEntry.map}/>
+              <Article key='article' context={context} tocEntry={tocEntry}/>
             </>
         }
       ]
@@ -43,7 +43,7 @@ const buildRoutes = (context, tocEntries) => {
       {
         path: tocEntry.article.path.substr(1),
         element:
-          <Article context={context} tocEntry={tocEntry}/>
+          <Article key='article' context={context} tocEntry={tocEntry}/>
       }
     ]
   });
@@ -51,20 +51,19 @@ const buildRoutes = (context, tocEntries) => {
 
 const buildNavigation = (tocEntries) => {
   return tocEntries.map( (tocEntry, index) => {
-
     if (tocEntry.children) {
       return (
         <li className='category' key={index}>{tocEntry.title}
           <ul>{ buildNavigation(tocEntry.children) }</ul>
         </li>
       )
-    } else {    
-      return (
-        <li className='articleLink' key={index}>
-          <Link to={tocEntry.article.path}>{tocEntry.title}</Link>
-        </li>
-      )
     }
+
+    return (
+      <li className='articleLink' key={index}>
+        <Link to={tocEntry.article.path}>{tocEntry.title}</Link>
+      </li>
+    )
   });
 };
 
