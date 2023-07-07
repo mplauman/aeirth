@@ -1,7 +1,3 @@
-:root {
-  --background-color: #EBEBEB;  
-}
-
 div.mainView {
   position: fixed;
   top: 0px;
@@ -21,78 +17,17 @@ div.marker svg {
   height: 53px;
 }
 
-.centered {
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.tableOfContents {
-  width: 15%;
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  height: 100vh;
-  background-color: var(--background-color);  
-}
-
-.tableOfContents .category {
-  font-style: oblique;
-  font-size: large;
-}
-
-.tableOfContents .articleLink {
-  font-style: normal;
-  font-size: medium;
-}
-
-.content .articleLink {
-  font-style: normal;
-  font-size: normal;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.tableOfContents > div {
-  position: relative;
-  top: 60px;
-  width: 100%;
-  height: calc(100vh - 60px);
-  overflow-y: scroll;
-  overflow-x: clip;
-}
-
-.tableOfContents > div > ul {
-  list-style-type: none;
-  margin: 0px;
-  padding-left: 10px;
-}
-
-.tableOfContents > div > ul ul {
-  list-style-type: none;
-  padding-left: 15px;
-}
-
-.tableOfContents > div > ul li {
-  white-space: nowrap;
-}
-
-.tableOfContents a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.tableOfContentsButton {
+div.tableOfContentsButton {
   position: fixed;
   top: 10px;
   left: 10px;
   width: 50px;
   height: 50px;
   cursor: pointer;
+  z-index: 9;
 }
 
-.tableOfContentsButton svg {
+div.tableOfContentsButton svg {
   width: 100%;
   height: 100%;
 }
