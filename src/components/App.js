@@ -53,14 +53,14 @@ const buildNavigation = (tocEntries) => {
   return tocEntries.map( (tocEntry, index) => {
     if (tocEntry.children) {
       return (
-        <li className='category' key={index}>{tocEntry.title}
+        <li key={index}>{tocEntry.title}
           <ul>{ buildNavigation(tocEntry.children) }</ul>
         </li>
       )
     }
 
     return (
-      <li className='articleLink' key={index}>
+      <li key={index}>
         <Link to={tocEntry.article.path}>{tocEntry.title}</Link>
       </li>
     )
@@ -72,27 +72,22 @@ const Layout = ({tocEntries}) => {
 
   return (
     <>
-      <div style={{ zIndex: 0 }}>
-        {/* The main window where the map and whatnot gets displayed */}
-        <div className='mainView'>
-          <Outlet/>
-        </div>
+      {/* The main window where the map and whatnot gets displayed */}
+      <div className='mainView'>
+        <Outlet/>
       </div>
 
-      <div style={{ zIndex: 100 }}>
-        {/* A button used to open and close the table of contents */}
-        <div className='tableOfContentsButton' onClick={() => setTocOpen(!tocOpen)} >
-          {tocOpen ? <CloseIcon/> : <MenuIcon/>}
-        </div>
-
-        {/* The table of contents drawer */}
-        <Drawer className='toc' anchor='left' open={tocOpen} onClose={() => setTocOpen(false)}>
-          <Box className='tableOfContents' sx={{ width: 'auto', overflowY: 'scroll' }} role='presentation' onClick={() => setTocOpen(false)} onKeyDown={() => setTocOpen(false)}>
-            <ul>{ buildNavigation(tocEntries) }</ul>
-          </Box>
-        </Drawer>
-
+      {/* A button used to open and close the table of contents */}
+      <div className='tableOfContentsButton' onClick={() => setTocOpen(!tocOpen)} >
+        {tocOpen ? <CloseIcon/> : <MenuIcon/>}
       </div>
+
+      {/* The table of contents drawer */}
+      <Drawer anchor='left' open={tocOpen} onClose={() => setTocOpen(false)}>
+        <Box sx={{ width: 'auto' }} role='presentation' onClick={() => setTocOpen(false)} onKeyDown={() => setTocOpen(false)}>
+          <ul>{ buildNavigation(tocEntries) }</ul>
+        </Box>
+      </Drawer>
     </>
   )
 }
