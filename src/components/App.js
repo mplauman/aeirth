@@ -71,24 +71,29 @@ const Layout = ({tocEntries}) => {
   const [tocOpen, setTocOpen] = useState(false)
 
   return (
-    <div className='app'>
-      {/* The main window where the map and whatnot gets displayed */}
-      <div className='mainView'>
-        <Outlet/>
+    <>
+      <div style={{ zIndex: 0 }}>
+        {/* The main window where the map and whatnot gets displayed */}
+        <div className='mainView'>
+          <Outlet/>
+        </div>
       </div>
 
-      {/* The table of contents drawer */}
-      <Drawer className='toc' anchor='left' open={tocOpen} onClose={() => setTocOpen(false)}>
-        <Box className='tableOfContents' sx={{ width: 'auto', overflowY: 'scroll' }} role='presentation' onClick={() => setTocOpen(false)} onKeyDown={() => setTocOpen(false)}>
-          <ul>{ buildNavigation(tocEntries) }</ul>
-        </Box>
-      </Drawer>
+      <div style={{ zIndex: 100 }}>
+        {/* A button used to open and close the table of contents */}
+        <div className='tableOfContentsButton' onClick={() => setTocOpen(!tocOpen)} >
+          {tocOpen ? <CloseIcon/> : <MenuIcon/>}
+        </div>
 
-      {/* A button used to open and close the table of contents */}
-      <div className='tableOfContentsButton' onClick={() => setTocOpen(!tocOpen)} >
-        {tocOpen ? <CloseIcon/> : <MenuIcon/>}
+        {/* The table of contents drawer */}
+        <Drawer className='toc' anchor='left' open={tocOpen} onClose={() => setTocOpen(false)}>
+          <Box className='tableOfContents' sx={{ width: 'auto', overflowY: 'scroll' }} role='presentation' onClick={() => setTocOpen(false)} onKeyDown={() => setTocOpen(false)}>
+            <ul>{ buildNavigation(tocEntries) }</ul>
+          </Box>
+        </Drawer>
+
       </div>
-    </div>
+    </>
   )
 }
 
