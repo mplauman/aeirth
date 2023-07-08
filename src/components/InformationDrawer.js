@@ -19,12 +19,25 @@ const InformationDrawer = ({title, children}) => {
         <div className='toolbar' onClick={() => setOpen(!open) }>
           <div className='title'>{title}</div>
           <div className='icon'>
-            {open ? <Minimize/> : <Maximize/>}
+            <Minimize/>
           </div>
         </div>
         {children}
       </Drawer>
-      { open ? '' : <div className='reopen' onClick={() => setOpen(true)}><Maximize/></div> }
+
+      <Drawer className='informationDrawer'
+          sx={{ flexShrink: 0 }}
+          variant="persistent"
+          anchor="bottom"
+          open={!open}
+      >
+        <div className='toolbar' onClick={() => setOpen(!open) }>
+          <div className='title'>{title}</div>
+          <div className='icon'>
+            <Maximize/>
+          </div>
+        </div>
+      </Drawer>
     </>
   )
 }

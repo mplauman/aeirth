@@ -67,17 +67,3 @@ div.tableOfContentsButton svg {
   padding-right: 5px;
   height: 100%;
 }
-
-.reopen {
-  position: fixed;
-  top: calc(100vh - 50px);
-  left: calc(100vw - 50px);
-  width: 50px;
-  height: 50px;
-  cursor: pointer;
-}
-
-.reopen svg {
-  width: 100%;
-  height: 100%;
-}
