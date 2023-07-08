@@ -25,7 +25,7 @@ const tocEntries = [
   {
     title: 'Welcome',
     article: {
-      path: './Welcome.md',
+      path: './Welcome to Aeirth.md',
     }
   },
   {
@@ -146,11 +146,34 @@ const tocEntries = [
           path: './Characters and Factions/Romin.md',
         },
       },
+      {
+        title: 'Tor Millist',
+        article: {
+          title: 'Tor Millist',
+          path: './Characters and Factions/Tor Millist.md',
+        }
+      },
     ]
   },
   {
     title: 'Locations',
     children: [
+      {
+        title: 'Aeirth',
+        map: fatesEnd,
+        article: {
+          title: 'Aeirth',
+          path: './Locations/Aeirth.md',
+        }
+      },
+      {
+        title: 'Fate\'s End',
+        map: fatesEnd,
+        article: {
+          title: 'Fate\'s End',
+          path: './Locations/Fates End.md',
+        }
+      },
       {
         title: 'Mog Caern',
         map: fatesEnd,
