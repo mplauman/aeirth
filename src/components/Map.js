@@ -67,9 +67,11 @@ const Map = ({initialScale, minScale, maxScale, title, image, markers}) => {
       scale = Math.max(minScale, state.s - 0.25);
     }
 
-    setState({
-      ...state,
-      s: scale,
+    setState((old) => {
+      return {
+        ...old,
+        s: scale,
+      }
     });
   }
 
@@ -281,10 +283,12 @@ const Map = ({initialScale, minScale, maxScale, title, image, markers}) => {
   }
 
   const onImageLoad = async ({target}) => {
-    setState({
-      ...state,
-      w: target.naturalWidth,
-      h: target.naturalHeight,
+    setState((old) => {
+      return {
+        ...old,
+        w: target.naturalWidth,
+        h: target.naturalHeight,
+      }
     });
   }
 

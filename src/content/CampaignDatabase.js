@@ -92,38 +92,43 @@ const events = {
 const locations = {
   watchmans_ambush: {
     display: 'Ambush Site',
-    maps: [
-      { map: 'fates_end', icon: 'city', x: 3088, y: 1920 },
-    ]
+    map: 'fates_end',
+    icon: 'city',
+    x: 3088,
+    y: 1920,
   },
   mog_caern: {
     display: 'Mog Caern',
     content: 'Locations/Mog Caern.md',
-    maps: [
-      { map: 'fates_end', icon: 'city', x: 2054, y: 1424 },
-    ]
+    map: 'fates_end',
+    icon: 'city',
+    x: 2054,
+    y: 1424,
   },
   roadside_camp: {
     display: 'Roadside Camp',
     content: 'Locations/Roadside Camp.md',
-    maps: [
-      { map: 'fates_end', icon: 'city', x: 2862, y: 1524 },
-    ]
+    map: 'fates_end',
+    icon: 'city',
+    x: 2862,
+    y: 1524,
   },
   sly_fox: {
     display: 'Sly Fox Inn',
     content: 'Locations/Sly Fox Inn.md',
-    maps: [
-      { map: 'fates_end', icon: 'city', x: 3108, y: 2122 },
-    ]
+    map: 'fates_end',
+    icon: 'city',
+    x: 3108,
+    y: 2122,
   },
   salt_wastes: {
     display: 'The Salt Wastes',
     content: 'Locations/The Salt Wastes.md',
-    maps: [
-      { map: 'fates_end', icon: 'city', x: 364, y: 2248 },
-    ]
-  }
+    map: 'fates_end',
+    icon: 'city',
+    x: 364,
+    y: 2248,
+  },
 }
 
 const maps = {

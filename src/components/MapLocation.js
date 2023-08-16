@@ -7,17 +7,9 @@ import Markdown from './Markdown';
 
 const MapLocation = ({campaign}) => {
   const location = useLoaderData()
-  const map = campaign.getMap([location.maps[0].map])
+  const map = campaign.getMap([location.map])
 
-  const mapMarkers = map.locations.map((l, index) => {
-    const mapLocation = campaign.getLocation(l)
-    return mapLocation.maps[0]
-  })
-  const locationMarkers = [
-    { x: location.maps[0].x, y: location.maps[0].y }
-  ]
-
-  const markers = mapMarkers.concat(locationMarkers)
+  const markers = map.locations.map((l) => campaign.getLocation(l)).concat(location)
 
   return (
     <>
