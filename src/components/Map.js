@@ -4,18 +4,54 @@ import MapMarker from './MapMarker';
 
 const ID = '69989e04-b229-4553-8c83-9a596f10c658';
 
-const Map = ({initialScale, minScale, maxScale, title, image, markers}) => {
+const calcDist = (target, size) => {
+  if (!target || !size) {
+    return 0
+  }
+
+  return (size / 2) - target
+}
+
+const Map = ({x, y, initialScale, minScale, maxScale, title, image, markers}) => {
+  const usePrevious = (v) => {
+    const ref = useRef()
+    useEffect(() => {
+      ref.current = v
+    })
+
+    return ref.current
+  }
+
   const pan = useRef(null);
   const pinch = useRef(null);
   const momentum = useRef(null);
 
+  const prevCoords = usePrevious({x, y})
+  const [coords, setCoords] = useState({x, y})
+
   const [state, setState] = useState({
+    startx: x,
+    starty: y,
     w: null,
     h: null,
     dx: 0,
     dy: 0,
     s: initialScale,
   })
+
+  useEffect(() => {
+    if (!prevCoords || prevCoords.x != x || prevCoords.y != y) {
+      setState((old) => {
+        return {
+          ...old,
+          startx: x,
+          starty: y,
+          dx: calcDist(x, old.w),
+          dy: calcDist(y, old.h),
+        }
+      })
+    }
+  }, [prevCoords])
 
   useEffect(() => {
     window.addEventListener('wheel', handleMouseWheel, { passive: false });
@@ -286,6 +322,8 @@ const Map = ({initialScale, minScale, maxScale, title, image, markers}) => {
     setState((old) => {
       return {
         ...old,
+        dx: calcDist(old.startx, target.naturalWidth),
+        dy: calcDist(old.starty, target.naturalHeight),
         w: target.naturalWidth,
         h: target.naturalHeight,
       }
