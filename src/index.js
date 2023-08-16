@@ -54,10 +54,20 @@ const campaign = {
 
     return match ? (match.type + '/' + match.id) : wikiHref
   },
+
+  findEntry: (path) => {
+    const [type, id] = path ? path.split('/') : ['articles', '']
+    return database[type][id]  
+  },
+
+  getMap: (id) => database.maps[id],
+  getLocation: (id) => database.locations[id],
+  getEvent: (id) => database.events[id],
+  getArticle: (id) => database.articles[id],
 }
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <CampaignWiki campaign={campaign} database={database} tableOfContents={table_of_contents}/>
+    <CampaignWiki campaign={campaign} tableOfContents={table_of_contents}/>
   </React.StrictMode>
 )

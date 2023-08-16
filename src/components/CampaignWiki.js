@@ -43,11 +43,6 @@ const Layout = ({children}) => {
   )
 }
 
-const findEntry = (database, path) => {
-  const [type, id] = path ? path.split('/') : ['articles', '']
-  return database[type][id]
-}
-
 /**
  * Convert an array of article entries into a <nav>. Each entry can be either
  * a string or an object.
@@ -57,12 +52,12 @@ const findEntry = (database, path) => {
  * If the entry is an object:
  * - If the 
  */
-const buildNavBar = (database, tableOfContents) => {
+const buildNavBar = (campaign, tableOfContents) => {
   return (
     <ul>
       {tableOfContents.map((entry, idx) => {
         if (typeof entry === 'string') {
-          const found = findEntry(database, entry)
+          const found = campaign.findEntry(entry)
           const text = found ? found.display : entry
           const element = found ? <Link to={'/' + entry}>{text}</Link> : text
 
@@ -74,12 +69,12 @@ const buildNavBar = (database, tableOfContents) => {
             throw new TypeError('Missing display and/or content property')
           }
 
-          const found = findEntry(database, entry.content)
+          const found = campaign.findEntry(entry.content)
           const text = entry.display || (found ? found.display : entry.content)
           const element = found ? <Link to={'/' + entry.content}>{text}</Link> : text
 
           if (entry.entries) {
-            return <li key={idx}>{element}{buildNavBar(database, entry.entries)}</li>
+            return <li key={idx}>{element}{buildNavBar(campaign, entry.entries)}</li>
           }
 
           return <li key={idx}>{element}</li>
@@ -91,29 +86,29 @@ const buildNavBar = (database, tableOfContents) => {
   )
 }
 
-const CampaignWiki = ({campaign, database, tableOfContents}) => {
+const CampaignWiki = ({campaign, tableOfContents}) => {
   // Using a hash router here because there's no server to speak to, making it impossible to forward all
   // paths to a single endpoint. Hash routing puts all the logic into the page itself so that stuff like
   // bookmarks and whatnot will work. 
   const router = createHashRouter([
     {
       path: '/',
-      element: <Layout>{buildNavBar(database, tableOfContents)}</Layout>,
+      element: <Layout>{buildNavBar(campaign, tableOfContents)}</Layout>,
       children: [
         {
           path: 'articles/:id',
           element: <TextArticle campaign={campaign}/>,
-          loader: ({params}) => database['articles'][params.id],
+          loader: ({params}) => campaign.getArticle(params.id),
         },
         {
           path: 'events/:id',
-          element: <CampaignEvent campaign={campaign} database={database}/>,
-          loader: ({params}) => database['events'][params.id],
+          element: <CampaignEvent campaign={campaign}/>,
+          loader: ({params}) => campaign.getEvent(params.id),
         },
         {
           path: 'locations/:id',
-          element: <MapLocation campaign={campaign} database={database}/>,
-          loader: ({params}) => database['locations'][params.id],
+          element: <MapLocation campaign={campaign}/>,
+          loader: ({params}) => campaign.getLocation(params.id),
         },
       ],
     },

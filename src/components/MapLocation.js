@@ -5,9 +5,9 @@ import InformationDrawer from './InformationDrawer';
 import Map from './Map';
 import Markdown from './Markdown';
 
-const MapLocation = ({campaign, database}) => {
+const MapLocation = ({campaign}) => {
   const location = useLoaderData()
-  const map = database['maps'][location.maps[0].map]
+  const map = campaign.getMap([location.maps[0].map])
 
   const [content, setContent] = useState("Loading...")
 
@@ -18,7 +18,7 @@ const MapLocation = ({campaign, database}) => {
   })
 
   const mapMarkers = map.locations.map((l, index) => {
-    const mapLocation = database['locations'][l]
+    const mapLocation = campaign.getLocation(l)
     return mapLocation.maps[0]
   })
   const locationMarkers = [

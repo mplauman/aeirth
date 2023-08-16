@@ -5,10 +5,10 @@ import InformationDrawer from './InformationDrawer';
 import Map from './Map';
 import Markdown from './Markdown';
 
-const CampaignEvent = ({campaign, database}) => {
+const CampaignEvent = ({campaign}) => {
   const event = useLoaderData()
-  const location = database['locations'][event.location]
-  const map = database['maps'][location.maps[0].map]
+  const location = campaign.getLocation(event.location)
+  const map = campaign.getMap(location.maps[0].map)
 
   const [content, setContent] = useState("Loading...")
 
@@ -19,7 +19,7 @@ const CampaignEvent = ({campaign, database}) => {
   })
 
   const mapMarkers = map.locations.map((l, index) => {
-    const mapLocation = database['locations'][l]
+    const mapLocation = campaign.getLocation(l)
     return mapLocation.maps[0]
   })
   const locationMarkers = [
