@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useLoaderData } from 'react-router-dom';
 
 import InformationDrawer from './InformationDrawer';
@@ -9,14 +9,6 @@ const CampaignEvent = ({campaign}) => {
   const event = useLoaderData()
   const location = campaign.getLocation(event.location)
   const map = campaign.getMap(location.maps[0].map)
-
-  const [content, setContent] = useState("Loading...")
-
-  useEffect(() => {
-    campaign
-      .loadContent(event.content)
-      .then((content) => setContent(content))
-  })
 
   const mapMarkers = map.locations.map((l, index) => {
     const mapLocation = campaign.getLocation(l)
@@ -32,7 +24,7 @@ const CampaignEvent = ({campaign}) => {
     <>
       <Map initialScale={map.initialScale} minScale={map.minScale} maxScale={map.maxScale} title={map.display} image={map.content} markers={markers}/>
       <InformationDrawer title={event.display}>
-        <Markdown campaign={campaign} content={content}/>
+        <Markdown campaign={campaign} content={event.content}/>
       </InformationDrawer>
     </>
   )

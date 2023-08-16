@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown'
 import { Link } from 'react-router-dom';
 
@@ -33,9 +33,17 @@ const resolveLink = (campaign, node) => {
 }
 
 const Markdown = ({campaign, content}) => {
+  const [markdown, setMarkdown] = useState("Loading...")
+
+  useEffect(() => {
+    campaign
+      .loadContent(content)
+      .then((loaded) => setMarkdown(loaded))
+  })
+
   return (
     <ReactMarkdown
-      children={content}
+      children={markdown}
       remarkPlugins={[
         remarkGfm,
         wikiLinkPlugin,
