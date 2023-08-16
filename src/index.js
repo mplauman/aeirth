@@ -1,14 +1,10 @@
 import React from 'react'
 import CampaignWiki from './components/CampaignWiki'
+import CampaignDatabase from './content/CampaignDatabase'
 
 import {
   createRoot
 } from 'react-dom/client'
-
-import {
-  database,
-  table_of_contents
-} from './database'
 
 import './style.css'
 
@@ -27,8 +23,8 @@ const campaign = {
 
     const matches = []
     
-    for (const type in database) {
-      const objects = database[type]
+    for (const type in CampaignDatabase) {
+      const objects = CampaignDatabase[type]
 
       for (const object_id in objects) {
         const object = objects[object_id]
@@ -57,17 +53,56 @@ const campaign = {
 
   findEntry: (path) => {
     const [type, id] = path ? path.split('/') : ['articles', '']
-    return database[type][id]  
+    return CampaignDatabase[type][id]  
   },
 
-  getMap: (id) => database.maps[id],
-  getLocation: (id) => database.locations[id],
-  getEvent: (id) => database.events[id],
-  getArticle: (id) => database.articles[id],
+  getMap: (id) => CampaignDatabase.maps[id],
+  getLocation: (id) => CampaignDatabase.locations[id],
+  getEvent: (id) => CampaignDatabase.events[id],
+  getArticle: (id) => CampaignDatabase.articles[id],
 }
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <CampaignWiki campaign={campaign} tableOfContents={table_of_contents}/>
+    <CampaignWiki campaign={campaign}>
+      {[
+        {
+          content: 'articles/welcome',
+          entries: [
+            'articles/gods',
+            'articles/calendar',
+          ]
+        },
+        {
+          content: 'articles/watchmans',
+          entries: [
+            'events/watchmans_murder',
+            'events/watchmans_assignment',
+            'events/watchmans_watch_failure',
+            'events/watchmans_safe_haven',
+            'events/watchmans_instigating',
+            'events/watchmans_ambush',
+            'events/watchmans_report',
+          ]
+        },
+        {
+          display: 'Characters and Factions',
+          entries: [
+            'articles/oggogul',
+            'articles/pally',
+            'articles/romin',
+          ]
+        },
+        {
+          display: 'Locations',
+          entries: [
+            'locations/mog_caern',
+            'locations/roadside_camp',
+            'locations/sly_fox',
+            'locations/salt_wastes',
+          ]
+        },
+      ]}
+    </CampaignWiki>
   </React.StrictMode>
 )

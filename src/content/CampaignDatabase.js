@@ -1,5 +1,5 @@
 
-export const articles = {
+const articles = {
   welcome: {
     display: 'Welcome',
     content: 'Welcome.md',
@@ -30,7 +30,7 @@ export const articles = {
   },
 }
 
-export const events = {
+const events = {
   watchmans_murder: {
     display: 'A Murder Most Fowl',
     content: 'Watchmans/231.12.21 - A Murder Scene Most Fowl.md',
@@ -89,7 +89,7 @@ export const events = {
   },
 }
 
-export const locations = {
+const locations = {
   watchmans_ambush: {
     display: 'Ambush Site',
     maps: [
@@ -126,7 +126,7 @@ export const locations = {
   }
 }
 
-export const maps = {
+const maps = {
   fates_end: {
     display: 'The Hinterlands of Fate\'s End',
     content: 'https://d1pyjk54yi0zpw.cloudfront.net/maps/fatesEnd.jpg',
@@ -141,48 +141,11 @@ export const maps = {
   },
 }
 
-export const database = {
+const CampaignDatabase = {
   articles: articles,
   events: events,
   locations: locations,
   maps: maps,
 }
 
-export const table_of_contents = [
-  {
-    content: 'articles/welcome',
-    entries: [
-      'articles/gods',
-      'articles/calendar',
-    ]
-  },
-  {
-    content: 'articles/watchmans',
-    entries: [
-      'events/watchmans_murder',
-      'events/watchmans_assignment',
-      'events/watchmans_watch_failure',
-      'events/watchmans_safe_haven',
-      'events/watchmans_instigating',
-      'events/watchmans_ambush',
-      'events/watchmans_report',
-    ]
-  },
-  {
-    display: 'Characters and Factions',
-    entries: [
-      'articles/oggogul',
-      'articles/pally',
-      'articles/romin',
-    ]
-  },
-  {
-    display: 'Locations',
-    entries: [
-      'locations/mog_caern',
-      'locations/roadside_camp',
-      'locations/sly_fox',
-      'locations/salt_wastes',
-    ]
-  },
-]
+export default CampaignDatabase

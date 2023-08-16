@@ -86,14 +86,14 @@ const buildNavBar = (campaign, tableOfContents) => {
   )
 }
 
-const CampaignWiki = ({campaign, tableOfContents}) => {
+const CampaignWiki = ({campaign, children}) => {
   // Using a hash router here because there's no server to speak to, making it impossible to forward all
   // paths to a single endpoint. Hash routing puts all the logic into the page itself so that stuff like
   // bookmarks and whatnot will work. 
   const router = createHashRouter([
     {
       path: '/',
-      element: <Layout>{buildNavBar(campaign, tableOfContents)}</Layout>,
+      element: <Layout>{buildNavBar(campaign, children)}</Layout>,
       children: [
         {
           path: 'articles/:id',
