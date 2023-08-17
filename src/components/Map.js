@@ -27,7 +27,6 @@ const Map = ({x, y, initialScale, minScale, maxScale, title, image, markers}) =>
   const momentum = useRef(null);
 
   const prevCoords = usePrevious({x, y})
-  const [coords, setCoords] = useState({x, y})
 
   const [state, setState] = useState({
     startx: x,
@@ -42,6 +41,9 @@ const Map = ({x, y, initialScale, minScale, maxScale, title, image, markers}) =>
   useEffect(() => {
     if (!prevCoords || prevCoords.x != x || prevCoords.y != y) {
       setState((old) => {
+        console.log('old, new dx', old.dx, calcDist(x, old.w))
+        console.log('old, new dy', old.dy, calcDist(y, old.h))
+
         return {
           ...old,
           startx: x,
@@ -320,6 +322,9 @@ const Map = ({x, y, initialScale, minScale, maxScale, title, image, markers}) =>
 
   const onImageLoad = async ({target}) => {
     setState((old) => {
+      console.log('load old, new dx', old.dx, calcDist(old.startx, target.naturalWidth))
+      console.log('load old, new dy', old.dy, calcDist(old.starty, target.naturalHeight))
+      
       return {
         ...old,
         dx: calcDist(old.startx, target.naturalWidth),

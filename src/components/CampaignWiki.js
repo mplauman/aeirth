@@ -4,8 +4,7 @@ import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 
 import TextArticle from './TextArticle';
-import CampaignEvent from './CampaignEvent';
-import MapLocation from './MapLocation';
+import MapArticle from './MapArticle';
 
 import CloseIcon from './icons/close.svg';
 import MenuIcon from './icons/menu.svg';
@@ -86,6 +85,59 @@ const buildNavBar = (campaign, tableOfContents) => {
   )
 }
 
+const loadArticle = (campaign, params) => {
+  const article = campaign.getArticle(params.id)
+
+  return {
+    title: article.display,
+    content: article.content,
+    campaign: campaign,
+  }
+}
+
+const loadEvent = (campaign, params) => {
+  const event = campaign.getEvent(params.id)
+  const location = campaign.getLocation(event.location)
+  const map = campaign.getMap(location.map)
+
+  return {
+    map: {
+      x: location.x,
+      y: location.y,
+      initialScale: map.initialScale,
+      minScale: map.minScale,
+      maxScale: map.maxScale,
+      title: map.display,
+      image: map.content,
+      markers: map.locations.map((l) => campaign.getLocation(l)).concat(location),
+    },
+    title: event.display,
+    content: event.content,
+    campaign: campaign,
+  }
+}
+
+const loadLocation = (campaign, params) => {
+  const location = campaign.getLocation(params.id)
+  const map = campaign.getMap([location.map])
+
+  return {
+    map: {
+      x: location.x,
+      y: location.y,
+      initialScale: map.initialScale,
+      minScale: map.minScale,
+      maxScale: map.maxScale,
+      title: map.display,
+      image: map.content,
+      markers: map.locations.map((l) => campaign.getLocation(l)).concat(location),
+    },
+    title: location.display,
+    content: location.content,
+    campaign: campaign,
+  }
+}
+
 const CampaignWiki = ({campaign, children}) => {
   // Using a hash router here because there's no server to speak to, making it impossible to forward all
   // paths to a single endpoint. Hash routing puts all the logic into the page itself so that stuff like
@@ -97,18 +149,18 @@ const CampaignWiki = ({campaign, children}) => {
       children: [
         {
           path: 'articles/:id',
-          element: <TextArticle campaign={campaign}/>,
-          loader: ({params}) => campaign.getArticle(params.id),
+          element: <TextArticle/>,
+          loader: ({params}) => loadArticle(campaign, params),
         },
         {
           path: 'events/:id',
-          element: <CampaignEvent campaign={campaign}/>,
-          loader: ({params}) => campaign.getEvent(params.id),
+          element: <MapArticle/>,
+          loader: ({params}) => loadEvent(campaign, params),
         },
         {
           path: 'locations/:id',
-          element: <MapLocation campaign={campaign}/>,
-          loader: ({params}) => campaign.getLocation(params.id),
+          element: <MapArticle/>,
+          loader: ({params}) => loadLocation(campaign, params),
         },
       ],
     },

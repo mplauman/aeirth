@@ -4,15 +4,15 @@ import { useLoaderData } from 'react-router-dom';
 
 import Markdown from './Markdown'
 
-const TextArticle = ({campaign}) => {
-  const entry = useLoaderData()
+const TextArticle = () => {
+  const data = useLoaderData()
 
   return (
     <div className='informationDrawer'>
       <div className='toolbar'>
-        <div className='title'>{entry.display}</div>
+        <div className='title'>{data.title}</div>
       </div>
-      <Markdown campaign={campaign} content={entry.content}/>
+      <Markdown campaign={data.campaign} content={data.content}/>
     </div>
   )
 }
