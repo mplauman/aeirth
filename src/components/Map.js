@@ -4,18 +4,59 @@ import MapMarker from './MapMarker';
 
 const ID = '69989e04-b229-4553-8c83-9a596f10c658';
 
-const Map = ({initialScale, minScale, maxScale, title, image, markers}) => {
+const calcDist = (target, size) => {
+  if (!target || !size) {
+    return 0
+  }
+
+  return (size / 2) - target
+}
+
+const Map = ({x, y, initialScale, minScale, maxScale, title, image, markers}) => {
+  const usePrevious = (v) => {
+    const ref = useRef()
+    useEffect(() => {
+      ref.current = v
+    })
+
+    return ref.current
+  }
+
   const pan = useRef(null);
   const pinch = useRef(null);
   const momentum = useRef(null);
+  const translation = useRef(null);
+
+  const prevCoords = usePrevious({x, y})
 
   const [state, setState] = useState({
+    startx: x,
+    starty: y,
     w: null,
     h: null,
     dx: 0,
     dy: 0,
     s: initialScale,
   })
+
+  useEffect(() => {
+    if (prevCoords && (prevCoords.x != x || prevCoords.y != y)) {
+      const destx = calcDist(x, state.w)
+      const desty = calcDist(y, state.h)
+
+      beginTranslation(destx, desty, 750)
+    }
+
+    if (!prevCoords || prevCoords.x != x || prevCoords.y != y) {
+      setState((old) => {
+        return {
+          ...old,
+          startx: x,
+          starty: y,
+        }
+      })
+    }
+  }, [prevCoords])
 
   useEffect(() => {
     window.addEventListener('wheel', handleMouseWheel, { passive: false });
@@ -67,9 +108,11 @@ const Map = ({initialScale, minScale, maxScale, title, image, markers}) => {
       scale = Math.max(minScale, state.s - 0.25);
     }
 
-    setState({
-      ...state,
-      s: scale,
+    setState((old) => {
+      return {
+        ...old,
+        s: scale,
+      }
     });
   }
 
@@ -192,7 +235,6 @@ const Map = ({initialScale, minScale, maxScale, title, image, markers}) => {
 
     window.requestAnimationFrame(momentumPanning);
   }
-
   const finishPanning = () => {
     if (!pan.current) {
       return false
@@ -206,6 +248,55 @@ const Map = ({initialScale, minScale, maxScale, title, image, markers}) => {
     window.requestAnimationFrame(momentumPanning);
 
     return true
+  }
+
+  const beginTranslation = (destx, desty, duration) => {
+    translation.current = {
+      startx: state.dx,
+      starty: state.dy,
+      destx: destx,
+      desty: desty,
+      duration: duration,
+      start: performance.now(),
+      lastTimestamp: performance.now(),
+    }
+    window.requestAnimationFrame(continueTranslation)
+  }
+  const continueTranslation = (timestamp) => {
+    const t = translation.current
+    if (t == null) {
+      return;
+    }
+
+    const remaining = (t.start + t.duration) - timestamp
+    if (remaining < 0) {
+      setState((old) => {
+        return {
+          ...old,
+          dx: t.destx,
+          dy: t.desty,
+        }
+      })
+
+      translation.current = null
+      return
+    }
+
+    const percentDuration = 1.0 - remaining / t.duration
+    const factor = -(Math.cos(Math.PI * percentDuration) - 1) / 2
+    setState((old) => {
+      return {
+        ...old,
+        dx: t.startx + (t.destx - t.startx) * factor,
+        dy: t.starty + (t.desty - t.starty) * factor,
+      }
+    })
+    translation.current = {
+      ...t,
+      lastTimestamp: timestamp,
+    }
+
+    window.requestAnimationFrame(continueTranslation)
   }
 
   const handleMouseDown = (args) => {
@@ -281,10 +372,14 @@ const Map = ({initialScale, minScale, maxScale, title, image, markers}) => {
   }
 
   const onImageLoad = async ({target}) => {
-    setState({
-      ...state,
-      w: target.naturalWidth,
-      h: target.naturalHeight,
+    setState((old) => {
+      return {
+        ...old,
+        dx: calcDist(old.startx, target.naturalWidth),
+        dy: calcDist(old.starty, target.naturalHeight),
+        w: target.naturalWidth,
+        h: target.naturalHeight,
+      }
     });
   }
 
