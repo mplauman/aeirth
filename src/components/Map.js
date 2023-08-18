@@ -25,6 +25,7 @@ const Map = ({x, y, initialScale, minScale, maxScale, title, image, markers}) =>
   const pan = useRef(null);
   const pinch = useRef(null);
   const momentum = useRef(null);
+  const translation = useRef(null);
 
   const prevCoords = usePrevious({x, y})
 
@@ -39,17 +40,19 @@ const Map = ({x, y, initialScale, minScale, maxScale, title, image, markers}) =>
   })
 
   useEffect(() => {
+    if (prevCoords && (prevCoords.x != x || prevCoords.y != y)) {
+      const destx = calcDist(x, state.w)
+      const desty = calcDist(y, state.h)
+
+      beginTranslation(destx, desty, 750)
+    }
+
     if (!prevCoords || prevCoords.x != x || prevCoords.y != y) {
       setState((old) => {
-        console.log('old, new dx', old.dx, calcDist(x, old.w))
-        console.log('old, new dy', old.dy, calcDist(y, old.h))
-
         return {
           ...old,
           startx: x,
           starty: y,
-          dx: calcDist(x, old.w),
-          dy: calcDist(y, old.h),
         }
       })
     }
@@ -232,7 +235,6 @@ const Map = ({x, y, initialScale, minScale, maxScale, title, image, markers}) =>
 
     window.requestAnimationFrame(momentumPanning);
   }
-
   const finishPanning = () => {
     if (!pan.current) {
       return false
@@ -246,6 +248,55 @@ const Map = ({x, y, initialScale, minScale, maxScale, title, image, markers}) =>
     window.requestAnimationFrame(momentumPanning);
 
     return true
+  }
+
+  const beginTranslation = (destx, desty, duration) => {
+    translation.current = {
+      startx: state.dx,
+      starty: state.dy,
+      destx: destx,
+      desty: desty,
+      duration: duration,
+      start: performance.now(),
+      lastTimestamp: performance.now(),
+    }
+    window.requestAnimationFrame(continueTranslation)
+  }
+  const continueTranslation = (timestamp) => {
+    const t = translation.current
+    if (t == null) {
+      return;
+    }
+
+    const remaining = (t.start + t.duration) - timestamp
+    if (remaining < 0) {
+      setState((old) => {
+        return {
+          ...old,
+          dx: t.destx,
+          dy: t.desty,
+        }
+      })
+
+      translation.current = null
+      return
+    }
+
+    const percentDuration = 1.0 - remaining / t.duration
+    const factor = -(Math.cos(Math.PI * percentDuration) - 1) / 2
+    setState((old) => {
+      return {
+        ...old,
+        dx: t.startx + (t.destx - t.startx) * factor,
+        dy: t.starty + (t.desty - t.starty) * factor,
+      }
+    })
+    translation.current = {
+      ...t,
+      lastTimestamp: timestamp,
+    }
+
+    window.requestAnimationFrame(continueTranslation)
   }
 
   const handleMouseDown = (args) => {
@@ -322,9 +373,6 @@ const Map = ({x, y, initialScale, minScale, maxScale, title, image, markers}) =>
 
   const onImageLoad = async ({target}) => {
     setState((old) => {
-      console.log('load old, new dx', old.dx, calcDist(old.startx, target.naturalWidth))
-      console.log('load old, new dy', old.dy, calcDist(old.starty, target.naturalHeight))
-      
       return {
         ...old,
         dx: calcDist(old.startx, target.naturalWidth),
