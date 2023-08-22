@@ -2,12 +2,15 @@ import React, { useState } from 'react';
 
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
+import Paper from '@mui/material/Paper';
 
 import TextArticle from './TextArticle';
 import MapArticle from './MapArticle';
 
 import CloseIcon from './icons/close.svg';
 import MenuIcon from './icons/menu.svg';
+
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 import {
   createHashRouter,
@@ -16,16 +19,28 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
+const theme = createTheme({
+  components: {
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundImage: "url(https://www.dndbeyond.com/content/1-0-2557-0/skins/waterdeep/images/mon-summary/stat-block-top-texture.png), url(https://www.dndbeyond.com/content/1-0-2557-0/skins/waterdeep/images/mon-summary/paper-texture.png)",
+          backgroundRepeat: "repeat-x, repeat",
+        }
+      }
+    }
+  }
+});
 
 const Layout = ({children}) => {
   const [tocOpen, setTocOpen] = useState(false)
 
   return (
-    <>
+    <ThemeProvider theme={theme}>
       {/* The main window where the map and whatnot gets displayed */}
-      <div className='mainView'>
+      <Paper className='mainView'>
         <Outlet/>
-      </div>
+      </Paper>
 
       {/* A button used to open and close the table of contents */}
       <div className='tableOfContentsButton' onClick={() => setTocOpen(!tocOpen)} >
@@ -38,7 +53,7 @@ const Layout = ({children}) => {
           {children}
         </Box>
       </Drawer>
-    </>
+    </ThemeProvider>
   )
 }
 
