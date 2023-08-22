@@ -10,19 +10,22 @@ const InformationDrawer = ({title, children}) => {
 
   return (
     <>
-      <Drawer className='informationDrawer'
+      <Drawer className='informationDrawer phb'
           sx={{ flexShrink: 0 }}
           variant="persistent"
           anchor="bottom"
           open={open}
       >
         <div className='toolbar' onClick={() => setOpen(!open) }>
-          <div className='title'>{title}</div>
+          <div className='title_sep'/>
+          <div className='title'><h1>{title}</h1></div>
           <div className='icon'>
             <Minimize/>
           </div>
         </div>
-        {children}
+        <div className='content'>
+          {children}
+        </div>
       </Drawer>
 
       <Drawer className='informationDrawer'
@@ -32,7 +35,8 @@ const InformationDrawer = ({title, children}) => {
           open={!open}
       >
         <div className='toolbar' onClick={() => setOpen(!open) }>
-          <div className='title'>{title}</div>
+          <div className='title_sep'/>
+          <div className='title'><h1>{title}</h1></div>
           <div className='icon'>
             <Maximize/>
           </div>

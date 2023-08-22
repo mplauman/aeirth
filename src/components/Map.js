@@ -394,7 +394,7 @@ const Map = ({x, y, initialScale, minScale, maxScale, title, image, markers}) =>
       <img 
         onLoad={onImageLoad}
         draggable={false}
-        style={{transform: "scale(" + state.s + ")"}}
+        style={{filter: 'drop-shadow(20px 20px 30px black)', transform: "scale(" + state.s + ")"}}
         src={image}
         alt={title}
       />
