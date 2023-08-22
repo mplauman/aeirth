@@ -50,7 +50,9 @@ const Layout = ({children}) => {
       {/* The table of contents drawer */}
       <Drawer anchor='left' open={tocOpen} onClose={() => setTocOpen(false)}>
         <Box sx={{ width: 'auto' }} role='presentation' onClick={() => setTocOpen(false)} onKeyDown={() => setTocOpen(false)}>
+          <div className='phb toc text_padding'>
           {children}
+          </div>
         </Box>
       </Drawer>
     </ThemeProvider>
@@ -88,7 +90,7 @@ const buildNavBar = (campaign, tableOfContents) => {
           const element = found ? <Link to={'/' + entry.content}>{text}</Link> : text
 
           if (entry.entries) {
-            return <li key={idx}>{element}{buildNavBar(campaign, entry.entries)}</li>
+            return <li key={idx}><h3>{element}</h3>{buildNavBar(campaign, entry.entries)}</li>
           }
 
           return <li key={idx}>{element}</li>
