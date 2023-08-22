@@ -12,7 +12,7 @@ const TextArticle = () => {
       <div className='toolbar'>
         <div className='title'><h1>{data.title}</h1></div>
       </div>
-      <div className='text_padding'>
+      <div className='content'>
         <Markdown campaign={data.campaign} content={data.content}/>
       </div>
     </div>

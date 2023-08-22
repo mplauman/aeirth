@@ -26,6 +26,7 @@ const theme = createTheme({
         root: {
           backgroundImage: "url(https://www.dndbeyond.com/content/1-0-2557-0/skins/waterdeep/images/mon-summary/stat-block-top-texture.png), url(https://www.dndbeyond.com/content/1-0-2557-0/skins/waterdeep/images/mon-summary/paper-texture.png)",
           backgroundRepeat: "repeat-x, repeat",
+          overflow: 'auto',
         }
       }
     }
