@@ -10,7 +10,7 @@ const TextArticle = () => {
   return (
     <div className='informationDrawer phb'>
       <div className='toolbar'>
-        <div className='title'><h1>{data.title}</h1></div>
+        <div className='title'><h1 style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{data.title}</h1></div>
       </div>
       <div className='content'>
         <Markdown campaign={data.campaign} content={data.content}/>
