@@ -400,7 +400,7 @@ const Map = ({x, y, initialScale, minScale, maxScale, title, image, markers}) =>
       />
       {
         markers.map((marker, index) => {
-          return <MapMarker key={index} x={WW + marker.x * state.s} y={HH + marker.y * state.s} type='city'/>
+          return <MapMarker key={index} x={WW + marker.x * state.s} y={HH + marker.y * state.s}/>
         })
       }
     </div>

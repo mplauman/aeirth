@@ -121,7 +121,7 @@ div.mainView {
 div.marker {
   position: fixed;
   z-index: 2;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -100%);
 }
 
 div.marker svg {
