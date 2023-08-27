@@ -9,10 +9,10 @@ const TextArticle = () => {
 
   return (
     <div className='informationDrawer phb'>
-      <div className='toolbar'>
-        <div className='title'><h1 style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>{data.title}</h1></div>
+      <div className='toolbar' style={{ position: 'fixed', top: '10px', left: '70px', display: 'flex', height: '60px', width: 'calc(100vw - 70px)' }}>
+        <div className='title'><h1 style={{ lineHeight: '100%' }} className='title'>{data.title}</h1></div><div/>
       </div>
-      <div className='content'>
+      <div style={{ position: 'fixed', top: '70px' }} className='content'>
         <Markdown campaign={data.campaign} content={data.content}/>
       </div>
     </div>
