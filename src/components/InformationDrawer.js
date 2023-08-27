@@ -45,7 +45,7 @@ const InformationDrawer = ({title, children}) => {
             <div className='title'><h1 className='title'>{title}</h1></div>
             <div className='icon'>{button}</div>
           </div>
-          <div className='content'>
+          <div className='content' style={{height: 'calc(100% - 56px)'}}>
             {children}
           </div>
         </Paper>
