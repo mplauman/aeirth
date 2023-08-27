@@ -109,6 +109,13 @@
       url("https://raw.githubusercontent.com/jonathonf/solbera-dnd-fonts/master/Scaly%20Sans%20Caps/Scaly%20Sans%20Caps%20Italic.otf") format("opentype");
   font-style: italic;
 }
+@font-face {
+  font-family: "Solbera Imitation";
+  src: 
+      local("Solbera Imitation"),
+      url('./components/fonts/Solbera Imitation.otf'),
+      url("https://raw.githubusercontent.com/jonathonf/solbera-dnd-fonts/master/Solbera%20Imitation/Solbera%20Imitation.otf") format("opentype");
+}
 
 div.mainView {
   position: fixed;
@@ -229,7 +236,7 @@ div.tableOfContentsButton svg {
 
 .phb h5{
   margin-bottom:      .2em;               
-  font-family:        ScalySansSmallCaps;
+  font-family:        'Scaly Sans Caps';
   font-size:          .423cm;
   font-weight:        900
 }
@@ -244,6 +251,14 @@ div.tableOfContentsButton svg {
 
 .phb p+p {
   margin-top:         -0.8em;
+}
+
+.phb div.content > p:first-child::first-letter {
+  float:          left;
+  font-family:    'Solbera Imitation';
+  font-size:      10em;
+  color:          #222;
+  line-height:    .8em
 }
 
 .phb p+p,                               
