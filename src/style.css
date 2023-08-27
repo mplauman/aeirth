@@ -186,7 +186,6 @@ div.tableOfContentsButton svg {
 .informationDrawer .content {
   text-align: justify;
   overflow-y: scroll;
-  overflow-x: clip;
   padding-left: 1em;
   padding-right: 1em;
   height: 100%;
