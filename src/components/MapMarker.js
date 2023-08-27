@@ -1,18 +1,9 @@
 import React from 'react';
-import City from './icons/city.svg';
+import Pin from './icons/pin.svg';
 
-const MapMarker = ({x, y, type}) => {
-  var typeComponent
-  switch (type) {
-    case 'city':
-      typeComponent = <City/>;
-      break;
-  }
-
+const MapMarker = ({x, y}) => {
   return (
-    <div className='marker' style={{ top: y, left: x }}>
-      {typeComponent}
-    </div>
+    <div className='marker' style={{ top: y, left: x }}><Pin/></div>
   )
 }
   
