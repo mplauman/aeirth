@@ -26,3 +26,4 @@ While the number of actual gods, demi-gods, and ascendants is virtually limitles
 |**Torog**      |NE       |Underdark, Darkness, Death             |T attached to a circular shackle          |
 |**Vecna**      |NE       |Secrets, Death, Knowledge              |Partially shattered one-eyed skull        |
 |**Zehir**      |CE       |Darkness, Poison, Trickery, Death      |Snake in the shape of a dagger            |
+
