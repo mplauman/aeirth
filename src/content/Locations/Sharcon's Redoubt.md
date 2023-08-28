@@ -1,0 +1,1 @@
+Surrounded by a wooden palisade, this small town serves as temporary refuge and supply point for those foolhardy enough to brave [[The Salt Wastes]] in search of ancient treasure.

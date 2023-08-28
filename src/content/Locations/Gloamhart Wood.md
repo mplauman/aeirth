@@ -1,0 +1,1 @@
+While the outskirts of this wood provide good hunting, few travel into the tangled heart of these woods.

@@ -1,0 +1,1 @@
+This large, grouchy volcano is in a constant state of mild eruption. Its occasional tremors can be felt throughout the region.

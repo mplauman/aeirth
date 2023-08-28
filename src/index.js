@@ -20,6 +20,7 @@ const campaign = {
 
   resolveWikiLink: (wikiHref) => {
     const markdownHref = wikiHref + ".md"
+    const markdownComponents = markdownHref.split('/')
 
     const matches = []
     
@@ -33,8 +34,16 @@ const campaign = {
         }
 
         const wikiForm = object.content.toLowerCase().replaceAll(' ', '_')
+        const wikiFormComponents = wikiForm.split('/')
+        if (wikiFormComponents.length < markdownComponents) {
+          continue
+        }
 
-        if (wikiForm.endsWith(markdownHref)) {
+        while (wikiFormComponents.length > markdownComponents.length) {
+          wikiFormComponents.shift()
+        }
+
+        if (wikiFormComponents.every((val, index) => val == markdownComponents[index])) {
           matches.push({
             type: type,
             id: object_id,
@@ -69,8 +78,10 @@ createRoot(document.getElementById('root')).render(
         {
           content: 'articles/welcome',
           entries: [
+            'articles/aeirth',
             'articles/gods',
             'articles/calendar',
+            'articles/fates_end',
           ]
         },
         {
@@ -91,15 +102,26 @@ createRoot(document.getElementById('root')).render(
             'articles/oggogul',
             'articles/pally',
             'articles/romin',
+            'articles/tor_millist',
           ]
         },
         {
           display: 'Locations',
           entries: [
+            'locations/dwarfholts',
+            'locations/festing_house',
+            'locations/fettlewind_marsh',
+            'locations/gloamhart_wood',
+            'locations/gorgeback_mountains',
             'locations/mog_caern',
+            'locations/mount_ire',
+            'locations/northwoods',
             'locations/roadside_camp',
-            'locations/sly_fox',
+            'locations/sharcons_redoubt',
             'locations/salt_wastes',
+            'locations/sly_fox',
+            'locations/sopwith',
+            'locations/woan_lake',
           ]
         },
       ]}

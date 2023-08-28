@@ -1,0 +1,1 @@
+This deep, cold lake is fed by glacial runoff from the [[Gorgeback Mountains]]. It is an excellent source of fish, though many of the fishermen who ply its waters often wonder who exactly is the predator and who is the prey.

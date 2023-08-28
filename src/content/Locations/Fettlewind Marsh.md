@@ -1,0 +1,1 @@
+This reeking expanse of land stretches several days south of [[Gloamhart Wood]], reaching all the way down to the [[Dwarfholts]].
