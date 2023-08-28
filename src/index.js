@@ -108,10 +108,20 @@ createRoot(document.getElementById('root')).render(
         {
           display: 'Locations',
           entries: [
+            'locations/dwarfholts',
+            'locations/festing_house',
+            'locations/fettlewind_marsh',
+            'locations/gloamhart_wood',
+            'locations/gorgeback_mountains',
             'locations/mog_caern',
+            'locations/mount_ire',
+            'locations/northwoods',
             'locations/roadside_camp',
-            'locations/sly_fox',
+            'locations/sharcons_redoubt',
             'locations/salt_wastes',
+            'locations/sly_fox',
+            'locations/sopwith',
+            'locations/woan_lake',
           ]
         },
       ]}

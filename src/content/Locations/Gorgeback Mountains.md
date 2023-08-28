@@ -1,0 +1,2 @@
+A towering range of mountains to the east of [[Fates End]], separating the region from the eastern lands beyond.
+It is inhabited by many bands of giant-kin. Typically content to dwell in their mountain homes, they occasionally raid the surrounding lowlands for food, profit, and sport.
