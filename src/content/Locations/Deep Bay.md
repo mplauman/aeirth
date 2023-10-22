@@ -1,0 +1,1 @@
+The fathomless depths of this bay are plied by ships ferrying passengers between [[Mog Caern]] and [[Sharcon's Redoubt]]. Piracy is only semi-rampant.

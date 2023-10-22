@@ -1,0 +1,1 @@
+The deep, swiftly running waters of the Garland Straits separates the bulk of [[Fates End]] from [[The Salt Wastes]] and beyond.

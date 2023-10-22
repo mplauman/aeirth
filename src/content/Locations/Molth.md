@@ -1,0 +1,1 @@
+This dark citadel rises out of the desert sands like a stain on the land. Few who venture there return.

@@ -1,0 +1,1 @@
+The small community that has grown around a squat, sandstone fortress serves as a trading center for the nomadic folk on the western side of the [[Garland Straits]].
