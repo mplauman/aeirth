@@ -132,7 +132,7 @@ const locations = {
   },
   garland_straits: {
     display: 'Garland Straits',
-    contnet: 'Locations/Garland Straits.md',
+    content: 'Locations/Garland Straits.md',
     map: 'fates_end',
     x: 1677,
     y: 1641,
