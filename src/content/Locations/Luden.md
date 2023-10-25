@@ -1,0 +1,1 @@
+The fortified estates of Luden serve as a launch point for the wealthy adventurers of [[Mog Caern]] who prefer something less rough and tumble than [[Sharcon's Redoubt]].

@@ -1,0 +1,1 @@
+The once beautiful canals winding throughout this small city have become choked and polluted by the thriving alchemical and tannery industries that have gradually taken over.

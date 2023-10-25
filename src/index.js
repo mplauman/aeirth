@@ -108,12 +108,18 @@ createRoot(document.getElementById('root')).render(
         {
           display: 'Locations',
           entries: [
+            'locations/deep_bay',
             'locations/dwarfholts',
             'locations/festing_house',
             'locations/fettlewind_marsh',
+            'locations/garland_straits',
             'locations/gloamhart_wood',
             'locations/gorgeback_mountains',
+            'locations/kaldar',
+            'locations/last_resort',
+            'locations/luden',
             'locations/mog_caern',
+            'locations/molth',
             'locations/mount_ire',
             'locations/northwoods',
             'locations/roadside_camp',
@@ -121,6 +127,8 @@ createRoot(document.getElementById('root')).render(
             'locations/salt_wastes',
             'locations/sly_fox',
             'locations/sopwith',
+            'locations/the_styes',
+            'locations/viktal',
             'locations/woan_lake',
           ]
         },

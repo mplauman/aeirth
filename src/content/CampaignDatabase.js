@@ -102,6 +102,13 @@ const events = {
 }
 
 const locations = {
+  deep_bay: {
+    display: 'Deep Bay',
+    content: 'Locations/Deep Bay.md',
+    map: 'fates_end',
+    x: 1254,
+    y: 2376,
+  },
   dwarfholts: {
     display: 'Dwarfholts',
     content: 'Locations/Dwarfholts.md',
@@ -123,6 +130,13 @@ const locations = {
     x: 2464,
     y: 2478,
   },
+  garland_straits: {
+    display: 'Garland Straits',
+    contnet: 'Locations/Garland Straits.md',
+    map: 'fates_end',
+    x: 1677,
+    y: 1641,
+  },
   gloamhart_wood: {
     display: 'Gloamhart Wood',
     content: 'Locations/Gloamhart Wood.md',
@@ -137,12 +151,40 @@ const locations = {
     x: 3806,
     y: 650,
   },
+  kaldar: {
+    display: 'Kaldar',
+    content: 'Locations/Kaldar.md',
+    map: 'fates_end',
+    x: 2280,
+    y: 885,
+  },
+  last_resort: {
+    display: 'Last Resort',
+    content: 'Locations/Last Resort.md',
+    map: 'fates_end',
+    x: 762,
+    y: 963,
+  },
+  luden: {
+    display: 'Luden',
+    content: 'Locations/Luden.md',
+    map: 'fates_end',
+    x: 1755,
+    y: 2112,
+  },
   mog_caern: {
     display: 'Mog Caern',
     content: 'Locations/Mog Caern.md',
     map: 'fates_end',
     x: 2054,
     y: 1424,
+  },
+  molth: {
+    display: 'Molth',
+    content: 'Locations/Molth.md',
+    map: 'fates_end',
+    x: 180,
+    y: 2214,
   },
   mount_ire: {
     display: 'Mount Ire',
@@ -192,6 +234,20 @@ const locations = {
     map: 'fates_end',
     x: 364,
     y: 2248,
+  },
+  the_styes: {
+    display: 'The Styes',
+    content: 'Locations/The Styes.md',
+    map: 'fates_end',
+    x: 1446,
+    y: 552,
+  },
+  viktal: {
+    display: 'Viktal',
+    content: 'Locations/Viktal.md',
+    map: 'fates_end',
+    x: 1329,
+    y: 1542,
   },
   watchmans_ambush: {
     display: 'Ambush Site',
